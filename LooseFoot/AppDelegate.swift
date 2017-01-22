@@ -7,16 +7,46 @@
 //
 
 import UIKit
+import reddift
+
+/// Posted when the OAuth2TokenRepository object succeed in saving a token successfully into Keychain.
+public let OAuth2TokenRepositoryDidSaveToken            = "OAuth2TokenRepositoryDidSaveToken"
+/// Posted when the OAuth2TokenRepository object failed to save a token successfully into Keychain.
+public let OAuth2TokenRepositoryDidFailToSaveToken      = "OAuth2TokenRepositoryDidFailToSaveToken"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.backgroundColor = UIColor.black
+        let nav = UINavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
+        nav.pushViewController(SubredditViewController(), animated: false)
+        window?.rootViewController = nav
+        window?.makeKeyAndVisible()
         return true
+    }
+    
+    func application(application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion: {(result) -> Void in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let token):
+                DispatchQueue.main.async(execute: { () -> Void in
+                    do {
+                        try OAuth2TokenRepository.save(token: token, of: token.name)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: OAuth2TokenRepositoryDidSaveToken), object: nil, userInfo: nil)
+                    } catch {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: OAuth2TokenRepositoryDidFailToSaveToken), object: nil, userInfo: nil)
+                        print(error)
+                    }
+                })
+            }
+        })
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
