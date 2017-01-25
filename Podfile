@@ -13,5 +13,6 @@ target 'LooseFoot' do
   pod 'FontAwesome.swift'
   pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
   pod 'SwiftyJSON'
-
+  pod 'Toaster'
+  pod 'Cartography'
 end

@@ -1,5 +1,5 @@
 //
-//  PostCell.swift
+//  PostCellExpanded.swift
 //  LooseFoot
 //
 //  Created by Alexander McArdle on 1/22/17.
@@ -10,7 +10,7 @@ import UIKit
 import ChameleonFramework
 import Cartography
 
-class PostCell: UICollectionViewCell {
+class PostCellExpanded: UICollectionViewCell {
     
     static let titleHeight: CGFloat = 30
     static let imageHeight: CGFloat = 80
@@ -19,8 +19,8 @@ class PostCell: UICollectionViewCell {
     static let smallFont = AppFont(size: 12, bold: true)
     
     static func cellSize(width: CGFloat, text: String) -> CGSize {
-        let labelBounds = TextSize.size(text, font: PostCell.font, width: width, insets: CommonInsets)
-        var cellHeight = labelBounds.height + PostCell.titleHeight
+        let labelBounds = TextSize.size(text, font: PostCellExpanded.font, width: width, insets: CommonInsets)
+        var cellHeight = labelBounds.height + PostCellExpanded.titleHeight
         if(cellHeight < (imageHeight + 6)) {
             cellHeight += ((imageHeight + 6) - cellHeight)
         }
@@ -30,7 +30,7 @@ class PostCell: UICollectionViewCell {
     let pointsLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
-        label.font = PostCell.smallFont
+        label.font = PostCellExpanded.smallFont
         label.textColor = UIColor.flatOrangeDark
         return label
     }()
@@ -46,7 +46,7 @@ class PostCell: UICollectionViewCell {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
         label.numberOfLines = 0
-        label.font = PostCell.font
+        label.font = PostCellExpanded.font
         label.textColor = UIColor.flatWhiteDark
         return label
     }()
@@ -54,14 +54,14 @@ class PostCell: UICollectionViewCell {
     let authorLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
-        label.font = PostCell.smallFont
+        label.font = PostCellExpanded.smallFont
         label.textColor = UIColor.flatBlue
         return label
     }()
     
     let authorButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = PostCell.smallFont
+        button.titleLabel?.font = PostCellExpanded.smallFont
         button.setTitleColor(UIColor.flatBlue, for: .normal)
         return button
     }()
@@ -71,7 +71,18 @@ class PostCell: UICollectionViewCell {
         //label.layer.borderColor = UIColor.flatGray.cgColor
         //label.layer.borderWidth = 1
         label.backgroundColor = UIColor.clear
-        label.font = PostCell.smallFont
+        label.font = PostCellExpanded.smallFont
+        label.textColor = UIColor.flatGray
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let statusLabel: UILabel = {
+        let label = UILabel()
+        label.layer.borderColor = UIColor.flatGray.cgColor
+        label.layer.borderWidth = 1
+        label.backgroundColor = UIColor.clear
+        label.font = PostCellExpanded.smallFont
         label.textColor = UIColor.flatGray
         label.textAlignment = .center
         return label
@@ -85,6 +96,7 @@ class PostCell: UICollectionViewCell {
         //contentView.addSubview(authorLabel)
         contentView.addSubview(authorButton)
         contentView.addSubview(pointsLabel)
+        contentView.addSubview(statusLabel)
         contentView.addSubview(subredditLabel)
     }
     
@@ -115,7 +127,12 @@ class PostCell: UICollectionViewCell {
             author.right == sub.left - 3
             
             sub.top == sub.superview!.top + 3
-            sub.right <= sub.superview!.right - 3
+            //sub.right <= sub.superview!.right - 3
+        }
+        constrain(subredditLabel, statusLabel) { sub, status in
+            sub.right <= status.left - 3
+            sub.top == status.top
+            status.right == status.superview!.right - 3
         }
         constrain(messageLabel, pointsLabel) { message, points in
             message.left == points.left
@@ -127,11 +144,11 @@ class PostCell: UICollectionViewCell {
             //author.bottom == message.top - 3
         }
         
-//        postImageView.frame = CGRect(x: 3, y: 3, width: PostCell.imageWidth, height: PostCell.imageHeight)
-//        authorLabel.frame = CGRect(x: CommonInsets.left + PostCell.imageWidth, y: 0, width: bounds.width - CommonInsets.left - CommonInsets.right - PostCell.imageWidth, height: PostCell.titleHeight)
-//        //authorLabel.frame = CGRect(x: CommonInsets.left, y: 0, width: bounds.width - CommonInsets.left - CommonInsets.right, height: PostCell.titleHeight)
-//        statusLabel.frame = CGRect(x: bounds.width - 82, y: 4, width: 70, height: 18)
-//        let messageFrame = CGRect(x: 0, y: authorLabel.frame.maxY, width: bounds.width, height: bounds.height - PostCell.titleHeight)
-//        messageLabel.frame = UIEdgeInsetsInsetRect(messageFrame, UIEdgeInsets(top: CommonInsets.top, left: PostCell.imageWidth + 6, bottom: CommonInsets.bottom, right: CommonInsets.right))
+        //        postImageView.frame = CGRect(x: 3, y: 3, width: PostCellExpanded.imageWidth, height: PostCellExpanded.imageHeight)
+        //        authorLabel.frame = CGRect(x: CommonInsets.left + PostCellExpanded.imageWidth, y: 0, width: bounds.width - CommonInsets.left - CommonInsets.right - PostCellExpanded.imageWidth, height: PostCellExpanded.titleHeight)
+        //        //authorLabel.frame = CGRect(x: CommonInsets.left, y: 0, width: bounds.width - CommonInsets.left - CommonInsets.right, height: PostCellExpanded.titleHeight)
+        //        statusLabel.frame = CGRect(x: bounds.width - 82, y: 4, width: 70, height: 18)
+        //        let messageFrame = CGRect(x: 0, y: authorLabel.frame.maxY, width: bounds.width, height: bounds.height - PostCellExpanded.titleHeight)
+        //        messageLabel.frame = UIEdgeInsetsInsetRect(messageFrame, UIEdgeInsets(top: CommonInsets.top, left: PostCellExpanded.imageWidth + 6, bottom: CommonInsets.bottom, right: CommonInsets.right))
     }
 }

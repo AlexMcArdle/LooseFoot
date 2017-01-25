@@ -23,14 +23,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.black
+        //let nav = CustomNavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
         let nav = UINavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
         nav.pushViewController(SubredditViewController(), animated: false)
+        //let nav = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
         return true
     }
     
-    func application(application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    func application(_ app: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        print("url: \(url)")
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion: {(result) -> Void in
             switch result {
             case .failure(let error):
@@ -40,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     do {
                         try OAuth2TokenRepository.save(token: token, of: token.name)
                         NotificationCenter.default.post(name: Notification.Name(rawValue: OAuth2TokenRepositoryDidSaveToken), object: nil, userInfo: nil)
+                        debugPrint(token)
                     } catch {
                         NotificationCenter.default.post(name: Notification.Name(rawValue: OAuth2TokenRepositoryDidFailToSaveToken), object: nil, userInfo: nil)
                         print(error)

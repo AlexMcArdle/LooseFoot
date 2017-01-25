@@ -36,6 +36,10 @@ extension UIColor {
 
 let CommonInsets = UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
 
-func AppFont(size: CGFloat = 18) -> UIFont {
-  return UIFont.fontAwesome(ofSize: size)
+func AppFont(size: CGFloat = 18, bold: Bool = false) -> UIFont {
+    if(bold) {
+        return UIFont.boldSystemFont(ofSize: size)
+    } else {
+        return UIFont.systemFont(ofSize: size)
+    }
 }
