@@ -1,0 +1,53 @@
+PODS:
+  - ActiveLabel (0.7.1)
+  - Cartography (1.0.1)
+  - ChameleonFramework/Default (2.1.0)
+  - ChameleonFramework/Swift (2.1.0):
+    - ChameleonFramework/Default
+  - FontAwesome.swift (1.0.0)
+  - IGListKit (2.1.0):
+    - IGListKit/Default (= 2.1.0)
+  - IGListKit/Default (2.1.0):
+    - IGListKit/Diffing
+  - IGListKit/Diffing (2.1.0)
+  - Kingfisher (3.3.2)
+  - reddift (2.0.1):
+    - reddift/MiniKeychain (= 2.0.1)
+  - reddift/MiniKeychain (2.0.1)
+  - SwiftyJSON (3.1.4)
+  - Toaster (2.0.1)
+
+DEPENDENCIES:
+  - ActiveLabel
+  - Cartography
+  - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
+  - FontAwesome.swift
+  - IGListKit
+  - Kingfisher
+  - reddift
+  - SwiftyJSON
+  - Toaster
+
+EXTERNAL SOURCES:
+  ChameleonFramework:
+    :git: https://github.com/ViccAlexander/Chameleon.git
+
+CHECKOUT OPTIONS:
+  ChameleonFramework:
+    :commit: dcf98f9bf3a632a7f40679b7da46f09681e48526
+    :git: https://github.com/ViccAlexander/Chameleon.git
+
+SPEC CHECKSUMS:
+  ActiveLabel: 68625f22775f51c31bb691ca8de20f1e5a3bc825
+  Cartography: c1460e99395b824d9d75360b0382faeb0b33dcd7
+  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  FontAwesome.swift: 2d32a3d62195343c2004b7c9043294ed2948553a
+  IGListKit: b826c68ef7a4ae1626c09d4d3e1ea7a169e6c36e
+  Kingfisher: 8e60094454aeb4746eb588eb57f794d891c6ea88
+  reddift: c6dc41a76657a9ca5c07f55a8e8ad6440f3635a9
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  Toaster: be65cd48e93a525b2a9cc4bd25a2bfc900e02d9f
+
+PODFILE CHECKSUM: b4406e8f89a64d6289966e8cfa72747a587210d4
+
+COCOAPODS: 1.1.1
