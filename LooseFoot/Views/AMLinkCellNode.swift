@@ -58,6 +58,7 @@ class AMLinkCellNode: ASCellNode {
         self.automaticallyManagesSubnodes = true
         backgroundColor = .flatBlack
         
+        
         // Check for Image
         imageNode.shouldRenderProgressImages = true
         if(link.l.thumbnail.hasPrefix("http")) {
@@ -162,8 +163,6 @@ class AMLinkCellNode: ASCellNode {
             topRowChildren?.append(goldNode)
         }
     }
-    
-    
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         //debugPrint(constrainedSize)

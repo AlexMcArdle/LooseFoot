@@ -38,6 +38,9 @@ playground.xcworkspace
 # Package.pins
 .build/
 
+# GoogleConfig
+LooseFoot/Resources/GoogleService-Info.plist
+
 # CocoaPods
 #
 # We recommend against adding the Pods directory to your .gitignore. However
