@@ -16,7 +16,7 @@ class AMComment: NSObject, DateSortable {
 //    let user: User
     
     // RedditComment
-    let comment: Comment
+    let c: Comment
 //    let id: String
 //    let name: String
 //    let domain: String
@@ -71,7 +71,7 @@ class AMComment: NSObject, DateSortable {
     //    }
     
     init(comment: Comment) {
-        self.comment = comment
+        self.c = comment
         self.date = Date()
 //        self.text = link.title
 //        self.user = User(id: 0, name: link.author)

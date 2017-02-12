@@ -17,14 +17,18 @@ class CustomNavigationController: UINavigationController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let customNavigationBar = self.navigationBar as! CustomNavigationBar
-        customNavigationBar.settingsButton.addTarget(self, action: #selector(settingsButtonPress(button:)), for: .touchUpInside)
+        //let customNavigationBar = self.navigationBar as! CustomNavigationBar
+        //customNavigationBar.settingsButton.addTarget(self, action: #selector(settingsButtonPress(button:)), for: .touchUpInside)
         
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
     }
     
 
@@ -37,25 +41,5 @@ class CustomNavigationController: UINavigationController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    func setTitle() {
-        
-    }
-    
-    func login() {
-        try! OAuth2Authorizer.sharedInstance.challengeWithAllScopes()
-    }
-    
-    func titleButtonPress(button: UIButton) {
-        
-    }
-    
-    func changeSettingsTitle(title: String) {
-
-    }
-    
-    func settingsButtonPress(button: UIButton) {
-        login()
-    }
 
 }

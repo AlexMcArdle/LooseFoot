@@ -8,6 +8,8 @@
 
 import UIKit
 import reddift
+import ChameleonFramework
+import FPSCounter
 
 /// Posted when the OAuth2TokenRepository object succeed in saving a token successfully into Keychain.
 public let OAuth2TokenRepositoryDidSaveToken            = "OAuth2TokenRepositoryDidSaveToken"
@@ -21,12 +23,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        FPSCounter.showInStatusBar(UIApplication.shared)
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.black
+        
+        Chameleon.setGlobalThemeUsingPrimaryColor(UIColor.flatBlackDark, with: .contrast)
+        
+        let nav = CustomNavigationController(navigationBarClass: AMNavigationBar.self, toolbarClass: AMToolbar.self)
         //let nav = CustomNavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
-        let nav = UINavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
-        nav.pushViewController(SubredditViewController(), animated: false)
-        //let nav = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+
+        nav.pushViewController(AMSubredditViewController(firstRun: true), animated: true)
+        //nav.pushViewController(AMPagerViewController(), animated: true)
+
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
         return true
