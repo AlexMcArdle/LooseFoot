@@ -39,7 +39,7 @@ playground.xcworkspace
 .build/
 
 # GoogleConfig
-GoogleService-Info.plist
+LooseFoot/Resources/GoogleService-Info.plist
 
 # CocoaPods
 #
@@ -67,5 +67,3 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
-
-LooseFoot/Resources/GoogleService-Info.plist
