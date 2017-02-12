@@ -34,6 +34,7 @@
 		6D8375D81E34B82D00A7915A /* OCRAStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6D8375D71E34B82D00A7915A /* OCRAStd.otf */; };
 		6D8375DA1E34BF2500A7915A /* reddift_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D8375D91E34BF2500A7915A /* reddift_config.json */; };
 		6D8375DC1E352E6400A7915A /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8375DB1E352E6400A7915A /* CustomNavigationController.swift */; };
+		6DD707651E504B9E00921E9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DD707641E504B9E00921E9F /* GoogleService-Info.plist */; };
 		6DE349081E43C71700C72BFF /* AMSubreddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE349071E43C71700C72BFF /* AMSubreddit.swift */; };
 		6DF86E7A1E35818F001DDC29 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 6DF86E791E35818F001DDC29 /* Podfile */; };
 		6DFC65121E4BBA9500333C47 /* AMCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC65111E4BBA9500333C47 /* AMCommentsViewController.swift */; };
@@ -70,6 +71,8 @@
 		6D8375D71E34B82D00A7915A /* OCRAStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OCRAStd.otf; sourceTree = "<group>"; };
 		6D8375D91E34BF2500A7915A /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		6D8375DB1E352E6400A7915A /* CustomNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
+		6DD707641E504B9E00921E9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6DD707661E504BD800921E9F /* LooseFoot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LooseFoot.entitlements; sourceTree = "<group>"; };
 		6DE349071E43C71700C72BFF /* AMSubreddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMSubreddit.swift; sourceTree = "<group>"; };
 		6DF86E791E35818F001DDC29 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		6DFC65111E4BBA9500333C47 /* AMCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMCommentsViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +114,7 @@
 		6D83759F1E34A81A00A7915A /* LooseFoot */ = {
 			isa = PBXGroup;
 			children = (
+				6DD707661E504BD800921E9F /* LooseFoot.entitlements */,
 				6D8375A01E34A81A00A7915A /* AppDelegate.swift */,
 				6D8375CE1E34B06100A7915A /* Views */,
 				6D8375C91E34AEAF00A7915A /* Models */,
@@ -136,6 +140,7 @@
 		6D8375C61E34AAEA00A7915A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6DD707641E504B9E00921E9F /* GoogleService-Info.plist */,
 				6D8375D71E34B82D00A7915A /* OCRAStd.otf */,
 				6D8375A91E34A81A00A7915A /* LaunchScreen.storyboard */,
 				6D8375A71E34A81A00A7915A /* Assets.xcassets */,
@@ -240,6 +245,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 5CEP23L458;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -271,6 +281,7 @@
 				6D8375A81E34A81A00A7915A /* Assets.xcassets in Resources */,
 				6D8375DA1E34BF2500A7915A /* reddift_config.json in Resources */,
 				6D8375D81E34B82D00A7915A /* OCRAStd.otf in Resources */,
+				6DD707651E504B9E00921E9F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,12 +479,15 @@
 			baseConfigurationReference = 6F3C097B566CF8056FD7DBC7 /* Pods-LooseFoot.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LooseFoot/LooseFoot.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5CEP23L458;
 				INFOPLIST_FILE = "$(SRCROOT)/LooseFoot/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexmcardle.LooseFoot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -483,12 +497,15 @@
 			baseConfigurationReference = 757ACE6488336929E3203CB6 /* Pods-LooseFoot.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LooseFoot/LooseFoot.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5CEP23L458;
 				INFOPLIST_FILE = "$(SRCROOT)/LooseFoot/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexmcardle.LooseFoot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

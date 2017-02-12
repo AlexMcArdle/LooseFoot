@@ -19,6 +19,9 @@ target 'LooseFoot' do
   pod 'FPSCounter'
   pod 'SwiftyMarkdown'
   pod 'Popover'
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Messaging'
   #pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', branch: 'master', submodules: true
   pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', branch: 'master', submodules: true
   #pod 'RealmSearchViewController'
