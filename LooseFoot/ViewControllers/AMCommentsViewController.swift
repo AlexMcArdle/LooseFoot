@@ -8,14 +8,15 @@
 
 import UIKit
 import AsyncDisplayKit
+import reddift
 
 class AMCommentsViewController: ASViewController<ASTableNode> {
     let tableNode = ASTableNode()
     
-    let redditLoader: RedditLoader
-    let link: AMLink
+    var redditLoader: RedditLoader? = nil
+    var link: AMLink? = nil
     
-    var commments: [AMComment]?
+    var comments: [AMComment]?
     
     init(link: AMLink, loader: RedditLoader) {
         
@@ -29,9 +30,20 @@ class AMCommentsViewController: ASViewController<ASTableNode> {
 
         tableNode.delegate = self
         tableNode.dataSource = self
+        tableNode.view.separatorStyle = .none
         
-        redditLoader.delegate = self
-        redditLoader.getComments(link: link)
+        redditLoader?.delegate = self
+        redditLoader?.getComments(link: link)
+    }
+    
+    init(sectionOfComments: [AMComment]) {
+        self.comments = sectionOfComments
+        super.init(node: tableNode)
+        
+        tableNode.backgroundColor = .flatBlackDark
+        tableNode.delegate = self
+        tableNode.dataSource = self
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,7 +76,7 @@ extension AMCommentsViewController: RedditLoaderDelegate {
     }
     func redditLoaderDidUpdateComments(redditLoader: RedditLoader, comments: [AMComment]) {
         //adapter.performUpdates(animated: true)
-        self.commments = comments
+        self.comments = comments
         print("didUpdateComments")
         tableNode.reloadData()
     }
@@ -75,14 +87,20 @@ extension AMCommentsViewController: RedditLoaderDelegate {
 
 extension AMCommentsViewController: ASTableDataSource {
     func numberOfSections(in tableNode: ASTableNode) -> Int {
-        return commments?.count ?? 0
+        return comments?.count ?? 0
     }
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
+//        if((comments?[section].c.replies.children.count)! > 0)
+//        {
+//            return 2
+//        } else {
+//            return 1
+//        }
         return 1
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
-        return AMCommentCellNode(comment: commments![indexPath.section])
+        return AMCommentCellNode(comment: comments![indexPath.section])
     }
 }
 
@@ -91,5 +109,6 @@ extension AMCommentsViewController: ASTableDelegate {
 //        let layoutExampleType = (tableNode.nodeForRow(at: indexPath) as! OverviewCellNode).layoutExampleType
 //        let detail = LayoutExampleViewController(layoutExampleType: layoutExampleType)
 //        self.navigationController?.pushViewController(detail, animated: true)
+        print("section: \(indexPath.section) row: \(indexPath.row)")
     }
 }

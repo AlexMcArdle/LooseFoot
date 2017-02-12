@@ -35,6 +35,10 @@ class AMCommentCellNode: ASCellNode {
     fileprivate let commentFlairNode = ASTextNode()
     fileprivate let goldNode = ASTextNode()
     
+    let verticleStackSpec = ASStackLayoutSpec.vertical()
+    
+    var commentChildren: [ASLayoutElement]? = []
+    
     init(comment: AMComment) {
         self.comment = comment
         
@@ -44,10 +48,29 @@ class AMCommentCellNode: ASCellNode {
         self.automaticallyManagesSubnodes = true
         backgroundColor = .flatBlack
         
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(cellSelected))
+        self.view.isUserInteractionEnabled = true
+        self.view.addGestureRecognizer(recognizer)
+        
 //        imageNode.shouldRenderProgressImages = true
 //        if(post.thumbnail.hasPrefix("http")) {
 //            imageNode.url = URL(string: post.thumbnail)
 //        }
+        
+        commentChildren = [verticleStackSpec]
+        
+        // Check for replies
+        if(self.comment.c.replies.children.count > 0) {
+            var tempComments: [Comment] = []
+            tempComments.append(contentsOf: self.comment.c.replies.children.flatMap{$0 as? Comment})
+            var newComments: [AMComment] = []
+            for newComment in tempComments {
+                newComments.append(AMComment(comment: newComment))
+                commentChildren?.append(AMCommentCellNode(comment: AMComment(comment: newComment)))
+            }
+            print("comments: \(self.comment.c.replies.children.count)")
+            
+        }
         
         // Markdown Parser
         let md = SwiftyMarkdown(string: comment.c.body)
@@ -101,6 +124,14 @@ class AMCommentCellNode: ASCellNode {
         }
     }
     
+    func cellSelected() {
+        print("cellSelected author: \(comment.c.author)")
+        let textCell = ASTextCellNode()
+        textCell.text = "minimized"
+        commentChildren = [verticleStackSpec]
+        self.setNeedsLayout()
+    }
+    
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         //debugPrint(constrainedSize)
         let middleStackSpec = ASStackLayoutSpec.vertical()
@@ -125,9 +156,15 @@ class AMCommentCellNode: ASCellNode {
 //        topRowStackSpec.style.flexShrink = 1.0
 //        topRowStackSpec.style.flexGrow = 1.0
         
+        verticleStackSpec.alignItems = .start
+        verticleStackSpec.spacing = 5.0
+        verticleStackSpec.children = [authorNode, commentTextNode]
+        verticleStackSpec.style.flexShrink = 1.0
+        verticleStackSpec.style.flexGrow = 1.0
+                
         middleStackSpec.alignItems = .start
         middleStackSpec.spacing = 5.0
-        middleStackSpec.children = [authorNode, commentTextNode]
+        middleStackSpec.children = commentChildren
         middleStackSpec.style.flexShrink = 1.0
         middleStackSpec.style.flexGrow = 1.0
         
