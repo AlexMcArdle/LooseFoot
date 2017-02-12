@@ -1,53 +1,97 @@
 PODS:
   - ActiveLabel (0.7.1)
+  - AsyncDisplayKit (2.1):
+    - AsyncDisplayKit/PINRemoteImage (= 2.1)
+  - AsyncDisplayKit/Core (2.1)
+  - AsyncDisplayKit/PINRemoteImage (2.1):
+    - AsyncDisplayKit/Core
+    - PINRemoteImage/iOS (= 3.0.0-beta.7)
+    - PINRemoteImage/PINCache
   - Cartography (1.0.1)
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
   - FontAwesome.swift (1.0.0)
-  - IGListKit (2.1.0):
-    - IGListKit/Default (= 2.1.0)
-  - IGListKit/Default (2.1.0):
-    - IGListKit/Diffing
-  - IGListKit/Diffing (2.1.0)
-  - Kingfisher (3.3.2)
+  - FPSCounter (2.0.0)
+  - Kingfisher (3.4.0)
+  - PINCache (3.0.1-beta.2):
+    - PINCache/Arc-exception-safe (= 3.0.1-beta.2)
+    - PINCache/Core (= 3.0.1-beta.2)
+  - PINCache/Arc-exception-safe (3.0.1-beta.2):
+    - PINCache/Core
+  - PINCache/Core (3.0.1-beta.2)
+  - PINRemoteImage/Core (3.0.0-beta.7)
+  - PINRemoteImage/iOS (3.0.0-beta.7):
+    - PINRemoteImage/Core
+  - PINRemoteImage/PINCache (3.0.0-beta.7):
+    - PINCache (= 3.0.1-beta.2)
+    - PINRemoteImage/Core
+  - Popover (1.0.4)
+  - Realm (2.4.2):
+    - Realm/Headers (= 2.4.2)
+  - Realm/Headers (2.4.2)
+  - RealmSwift (2.4.2):
+    - Realm (= 2.4.2)
   - reddift (2.0.1):
     - reddift/MiniKeychain (= 2.0.1)
   - reddift/MiniKeychain (2.0.1)
   - SwiftyJSON (3.1.4)
-  - Toaster (2.0.1)
+  - SwiftyMarkdown (0.3.2)
+  - Toaster (2.0.2)
+  - UIColor_Hex_Swift (3.0.2)
 
 DEPENDENCIES:
   - ActiveLabel
+  - AsyncDisplayKit
   - Cartography
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - FontAwesome.swift
-  - IGListKit
+  - FPSCounter
   - Kingfisher
+  - Popover
+  - RealmSwift (from `https://github.com/realm/realm-cocoa.git`, branch `master`)
   - reddift
   - SwiftyJSON
+  - SwiftyMarkdown
   - Toaster
+  - UIColor_Hex_Swift
 
 EXTERNAL SOURCES:
   ChameleonFramework:
     :git: https://github.com/ViccAlexander/Chameleon.git
+  RealmSwift:
+    :branch: master
+    :git: https://github.com/realm/realm-cocoa.git
+    :submodules: true
 
 CHECKOUT OPTIONS:
   ChameleonFramework:
     :commit: dcf98f9bf3a632a7f40679b7da46f09681e48526
     :git: https://github.com/ViccAlexander/Chameleon.git
+  RealmSwift:
+    :commit: 15cd120131f04304a88185171e8bf71a5c2369fb
+    :git: https://github.com/realm/realm-cocoa.git
+    :submodules: true
 
 SPEC CHECKSUMS:
   ActiveLabel: 68625f22775f51c31bb691ca8de20f1e5a3bc825
+  AsyncDisplayKit: 28de788f9d6ec573be7662f0fe8931e656357e93
   Cartography: c1460e99395b824d9d75360b0382faeb0b33dcd7
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   FontAwesome.swift: 2d32a3d62195343c2004b7c9043294ed2948553a
-  IGListKit: b826c68ef7a4ae1626c09d4d3e1ea7a169e6c36e
-  Kingfisher: 8e60094454aeb4746eb588eb57f794d891c6ea88
+  FPSCounter: d4b8588434c18de19ef819c9fc06f80ce0924d94
+  Kingfisher: 5690cfb3d1bddf3a98d679a3a34d0b7294974ed2
+  PINCache: 6d273a6e0754bd26e3f12a38a90dde73cc6a42b2
+  PINRemoteImage: ff63baf185088530db6cfa41cb665e2b5126b5c3
+  Popover: 8bced665f98824ded3b8114a27f4d2281c78a672
+  Realm: d27b758e12d62a3371879a065d4c40aa212c5a54
+  RealmSwift: a2485af6fd62369e7126ce0af43ff5430de1e77a
   reddift: c6dc41a76657a9ca5c07f55a8e8ad6440f3635a9
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  Toaster: be65cd48e93a525b2a9cc4bd25a2bfc900e02d9f
+  SwiftyMarkdown: 59cea5af966f7fb0ed99dfc29174d82ba1534cfd
+  Toaster: 19f860acd46b7b8aeec5a76d4046a04cb1acca66
+  UIColor_Hex_Swift: 95f718452092a3efc8a827dffd2c04d3237be02d
 
-PODFILE CHECKSUM: b4406e8f89a64d6289966e8cfa72747a587210d4
+PODFILE CHECKSUM: d61ac23eeea758b2d9df2f3ce14baa8b24aaceeb
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0

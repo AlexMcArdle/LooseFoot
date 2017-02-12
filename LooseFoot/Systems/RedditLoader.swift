@@ -23,15 +23,19 @@
 import Foundation
 import reddift
 import Toaster
+import RealmSwift
+import SwiftyJSON
 
 protocol RedditLoaderDelegate: class {
-    func redditLoaderDidUpdatePosts(redditLoader: RedditLoader)
-    func redditLoaderDidUpdateComments(redditLoader: RedditLoader)
-    func redditLoaderDidSelectPost(redditLoader: RedditLoader)
+    func redditLoaderDidUpdateLinks(redditLoader: RedditLoader)
+    func redditLoaderDidUpdateComments(redditLoader: RedditLoader, comments: [AMComment])
+    func redditLoaderDidSelectLink(redditLoader: RedditLoader)
     func redditLoaderDidReturnToPosts(redditLoader: RedditLoader)
+    func redditLoaderDidVote(redditLoader: RedditLoader)
+    func redditLoaderDidUpdateSubreddits(redditLoader: RedditLoader)
 }
 
-private func delay(time: Double = 1, execute work: @escaping @convention(block) () -> Swift.Void) {
+private func doOnMainThread(execute work: @escaping @convention(block) () -> Swift.Void) {
   DispatchQueue.main.async {
     work()
   }
@@ -44,20 +48,25 @@ private func delay(time: Double = 1, execute work: @escaping @convention(block) 
 
 class RedditLoader {
     
+    
     static let sharedReddit = RedditLoader()
   
     weak var delegate: RedditLoaderDelegate?
+    var searchDelegate: RedditLoaderDelegate?
+    var realm: Realm?
     
     var redditSession: Session = Session()
     var names: [String] = []
     var r_links: [Link] = []
-    var postsLast: [Post] = []
-    var posts: [Post] = {
-        var arr = [Post]()
+    var linksLast: [AMLink] = []
+    var links: [AMLink] = {
+        var arr = [AMLink]()
         return arr
         }() {
         didSet {
-            delegate?.redditLoaderDidUpdatePosts(redditLoader: self)
+            doOnMainThread {
+                self.delegate?.redditLoaderDidUpdateLinks(redditLoader: self)
+            }
         }
     }
     
@@ -68,8 +77,26 @@ class RedditLoader {
         return arr
         }() {
         didSet {
-            delegate?.redditLoaderDidUpdateComments(redditLoader: self)
+            doOnMainThread {
+                self.delegate?.redditLoaderDidUpdateComments(redditLoader: self, comments: self.comments)
+            }
         }
+    }
+    
+    var r_subreddits: [Subreddit] = []
+    var subreddits: [AMSubreddit] = {
+        var arr = [AMSubreddit]()
+        return arr
+        }() {
+        didSet {
+            doOnMainThread {
+                self.searchDelegate?.redditLoaderDidUpdateSubreddits(redditLoader: self)
+            }
+        }
+    }
+    
+    init() {
+        self.realm = try! Realm()
     }
   
     func connect() {
@@ -85,17 +112,27 @@ class RedditLoader {
         }
     }
     
+    func subredditToAMSubreddit() {
+        var newSubreddits: [AMSubreddit] = []
+        for subreddit in self.r_subreddits {
+            newSubreddits.append(AMSubreddit(sub: subreddit))
+        }
+        self.subreddits = newSubreddits
+        self.r_subreddits = []
+    }
+    
     func linkToPost() {
         
-        var newPosts: [Post] = []
-        for link in self.r_links {
-            newPosts.append(Post(link: link))
+        var newLinks: [AMLink] = []
+        let indexCountOfLinks = (self.r_links.count - 1)
+        for i in 0...indexCountOfLinks {
+            newLinks.append(AMLink(link: self.r_links[i]))
         }
         
-        let postsBak = self.posts
-        self.postsLast = postsBak
+        let linksBak = self.links
+        self.linksLast = linksBak
         
-        self.posts = newPosts
+        self.links = newLinks
         self.r_links = []
     }
     
@@ -111,79 +148,118 @@ class RedditLoader {
         self.r_comments = []
     }
     
-    func returnFromComments() {
-        
-        // save current state and restore previous Posts
-        delay {
-            let lastPosts = self.postsLast
-            let currentComments = self.comments
-            self.commentsLast = currentComments
-            self.posts = lastPosts
-            self.comments = []
-            self.delegate?.redditLoaderDidReturnToPosts(redditLoader: self)
-        }
-    }
-    
-    func expandPost(at: Int) {
-//        delay {
-//            let post = self.posts[at+1]
-//            debugPrint(post)
-//            post.isExpanded = !post.isExpanded
-//            debugPrint(post)
+//    func returnFromComments() {
+//        
+//        // save current state and restore previous Posts
+//        doOnMainThread {
+//            let lastPosts = self.postsLast
+//            let currentComments = self.comments
+//            self.commentsLast = currentComments
+//            self.posts = lastPosts
+//            self.comments = []
+//            self.delegate?.redditLoaderDidReturnToPosts(redditLoader: self)
 //        }
+//    }
+    
+//    func expandPost(at: Int) {
+////        doOnMainThread {
+////            let post = self.posts[at+1]
+////            debugPrint(post)
+////            post.isExpanded = !post.isExpanded
+////            debugPrint(post)
+////        }
+//    }
+    
+    func login() {
+        try! OAuth2Authorizer.sharedInstance.challengeWithAllScopes()
+    }
+
+    func vote(link: AMLink, direction: VoteDirection) {
+        //print("vote: \(direction.rawValue) + \(post.postPosition)")
+        let newDir = (link.l.likes == direction) ? .none : direction
+        do {
+            try redditSession.setVote(newDir, name: link.l.name, completion: { (result) in
+                switch result {
+                case .failure(let error):
+                    debugPrint("error: \(error)")
+                    Toast(text: "Vote: error").show()
+                case .success(let listing):
+                    doOnMainThread {
+                        debugPrint(listing)
+                        let linkIndex: Int = self.links.index(of: link)!
+                        print("voted: \(linkIndex)")
+                        //self.links[linkIndex].l.likes = newDir
+                        self.delegate?.redditLoaderDidVote(redditLoader: self)
+                    }
+                }
+                
+            })
+        } catch { print("upvote error") }
     }
     
-    func getComments(post: Post) {
+    func getUser(user: String) {
+        
+    }
+    
+    func getUserSubreddits(user: String, paginator: Paginator? = nil) {
+        let _paginator = paginator ?? Paginator()
+        debugPrint(paginator)
+        do {
+            try redditSession.getUserRelatedSubreddit(.subscriber, paginator: _paginator, completion: { (result) in
+                switch result {
+                case .failure(let error):
+                    debugPrint(error)
+                case .success(let listing):
+                    //debugPrint(listing)
+                    
+                    self.r_subreddits.append(contentsOf: listing.children.flatMap{$0 as? Subreddit})
+                    if(listing.paginator.isVacant) {
+                        print("isVacant")
+                        self.subredditToAMSubreddit()
+                    } else {
+                        print("!isVacant")
+                        self.getUserSubreddits(user: "", paginator: listing.paginator)
+                    }
+                }
+            })
+        } catch { print("getUserSubreddits error") }
+    }
+    
+    func getComments(link: AMLink) {
 //        let paginator = Paginator()
 //        let commentId = link.id
 //        let sortType = LinkSortType.top
         
-        // Clean view: Remove other posts and put clicked post at top
-        delay {
-            self.comments = []
-            self.postsLast = self.posts
-            self.posts = [post]
-            //self.r_links.append(link)
-            //self.linkToPost()
-            self.delegate?.redditLoaderDidSelectPost(redditLoader: self)
-
-        }
-        
         do {
-            try redditSession.getArticles(post.link, sort: .top, completion: { (result) in
+            try redditSession.getArticles(link.l, sort: .top, completion: { (result) in
                 switch result {
                 case .failure(let error):
                     print(error)
                 case .success(let listing):
-                    delay {
-                        self.r_comments.append(contentsOf: listing.1.children.flatMap{$0 as? Comment})
-                        self.commentToAMComment()
-                    }
-                    
+                    var newArray: [Comment] = []
+                    newArray.append(contentsOf: listing.0.children.flatMap{$0 as? Comment})
+                    self.r_comments.append(contentsOf: listing.1.children.flatMap{$0 as? Comment})
+                    self.commentToAMComment()
                 }
             })
         } catch { print("getComments error") }
     }
     
     func getSubreddit(sub: String) {
-        if(sub == "Frontpage") {
-            let paginator = Paginator()
-            let subreddit: Subreddit? = nil
-            let sortType = LinkSortType.hot
-            do {
-                try redditSession.getList(paginator, subreddit:subreddit, sort:sortType, timeFilterWithin:.day, completion: { (result) in
-                    switch result {
-                    case .failure(let error):
-                        print(error)
-                    case .success(let listing):
-                        
-                        delay {
-                            self.r_links.append(contentsOf: listing.children.flatMap{$0 as? Link})
-                            self.linkToPost()
-                        }
-                    }
-                })
-            } catch { print("getSubreddit error") }
-        }
+        
+        let paginator = Paginator()
+        let subreddit: Subreddit? = (sub=="Frontpage") ? nil : Subreddit(subreddit: sub)
+        let sortType = LinkSortType.hot
+        do {
+            try redditSession.getList(paginator, subreddit:subreddit, sort:sortType, timeFilterWithin:.day, completion: { (result) in
+                switch result {
+                case .failure(let error):
+                    Toast(text: "GetSub: \(error)").show()
+                case .success(let listing):
+                    self.r_links.append(contentsOf: listing.children.flatMap{$0 as? Link})
+                    self.linkToPost()
+                }
+            })
+        } catch { print("getSubreddit error") }
     }
 }
