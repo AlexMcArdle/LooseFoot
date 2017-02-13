@@ -18,6 +18,7 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
     public let redditLoader = RedditLoader()
     
     var currentSubreddit: AMSubreddit?
+    var hasBanner = false
     
     init(subreddit: String? = nil, firstRun: Bool = false) {
         /*layoutExamples = [
@@ -44,8 +45,12 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         tableNode.dataSource = self
         
         redditLoader.delegate = self
-        goToSubreddit()
-        redditLoader.getSubreddit(subreddit)
+        var sub: AMSubreddit? = nil
+        if let subText = subreddit {
+            sub = AMSubreddit(sub: Subreddit(subreddit: subText))
+        }
+        goToSubreddit(sub)
+        //redditLoader.getSubreddit(subreddit)
     }
     func pressHome() {
         print("presshome")
@@ -62,6 +67,11 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         print("gotosubreddit \(subreddit?.s.displayName)")
         currentSubreddit = subreddit
         addTitle()
+        if let sub = subreddit {
+            if(sub.s.bannerImg.hasPrefix("http")) {
+                hasBanner = true
+            }
+        }
         redditLoader.getSubreddit(subreddit?.s.displayName)
     }
     
@@ -193,21 +203,54 @@ extension AMSubredditViewController: RedditLoaderDelegate {
 }
 
 extension AMSubredditViewController: ASTableDataSource {
+    func numberOfSections(in tableNode: ASTableNode) -> Int {
+        return 2
+    }
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
         //return layoutExamples.count
-        return redditLoader.links.count
+        switch section {
+        case 0:
+            if let sub = currentSubreddit {
+                return 1
+            } else {
+                return redditLoader.links.count
+            }
+        case 1:
+            return redditLoader.links.count
+        default:
+            return 0
+        }
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
         //return OverviewCellNode(layoutExampleType: layoutExamples[indexPath.row])
-        return AMLinkCellNode(link: redditLoader.links[indexPath.row])
+        switch indexPath.section {
+        case 0:
+            if let sub = currentSubreddit {
+                let cell = AMHeaderCellNode(currentSubreddit!)
+                return cell
+            } else {
+                return AMLinkCellNode(link: redditLoader.links[indexPath.row])
+            }
+        case 1:
+            return AMLinkCellNode(link: redditLoader.links[indexPath.row])
+        default:
+            return ASCellNode()
+        }
     }
 }
 
 extension AMSubredditViewController: ASTableDelegate {
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
         //let layoutExampleType = (tableNode.nodeForRow(at: indexPath) as! AMLinkCellNode).layoutExampleType
-        let detail = AMCommentsViewController(link: redditLoader.links[indexPath.row], loader: redditLoader)
-        self.navigationController?.pushViewController(detail, animated: true)
+        switch indexPath.section {
+        case 0:
+            print("selectedBanner")
+        case 1:
+            let detail = AMCommentsViewController(link: redditLoader.links[indexPath.row], loader: redditLoader)
+            self.navigationController?.pushViewController(detail, animated: true)
+        default:
+            print("touch error")
+        }
     }
 }

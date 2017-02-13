@@ -53,7 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                object: nil)
         // [END add_token_refresh_observer]
         
-        //let token = FIRMessaging.tok
         return true
     }
     
