@@ -138,7 +138,7 @@ extension NSAttributedString {
         guard let string = string else { return nil }
         
         let attributes = [NSForegroundColorAttributeName: color ?? UIColor.black,
-                          NSFontAttributeName: UIFont.boldSystemFont(ofSize: size)]
+                          NSFontAttributeName: AppFont(size: size, bold: true)]
         
         let attributedString = NSMutableAttributedString(string: string, attributes: attributes)
         

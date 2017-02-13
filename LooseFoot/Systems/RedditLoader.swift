@@ -245,10 +245,16 @@ class RedditLoader {
         } catch { print("getComments error") }
     }
     
-    func getSubreddit(sub: String) {
+    func getSubreddit(_ sub: String?) {
         
         let paginator = Paginator()
-        let subreddit: Subreddit? = (sub=="Frontpage") ? nil : Subreddit(subreddit: sub)
+        //let subreddit: Subreddit? = (sub=="Frontpage") ? nil : Subreddit(subreddit: sub!)
+        let subreddit: Subreddit?
+        if let temp = sub {
+            subreddit = Subreddit(subreddit: temp)
+        } else {
+            subreddit = nil
+        }
         let sortType = LinkSortType.hot
         do {
             try redditSession.getList(paginator, subreddit:subreddit, sort:sortType, timeFilterWithin:.day, completion: { (result) in

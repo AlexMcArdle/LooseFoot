@@ -10,11 +10,14 @@ import UIKit
 import AsyncDisplayKit
 import FontAwesome_swift
 import Popover
+import reddift
 
 class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresentationControllerDelegate {
     let tableNode = ASTableNode()
     //let layoutExamples: [LayoutExampleNode.Type]
     public let redditLoader = RedditLoader()
+    
+    var currentSubreddit: AMSubreddit?
     
     init(subreddit: String? = nil, firstRun: Bool = false) {
         /*layoutExamples = [
@@ -41,8 +44,8 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         tableNode.dataSource = self
         
         redditLoader.delegate = self
-        let sub = subreddit ?? "Frontpage"
-        redditLoader.getSubreddit(sub: sub)
+        goToSubreddit()
+        redditLoader.getSubreddit(subreddit)
     }
     func pressHome() {
         print("presshome")
@@ -55,19 +58,36 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         addToolbar()
     }
     
-    func goToSubreddit(_ subreddit: AMSubreddit) {
-        print("gotosubreddit \(subreddit.s.displayName)")
-        redditLoader.getSubreddit(sub: subreddit.s.displayName)
+    func goToSubreddit(_ subreddit: AMSubreddit? = nil) {
+        print("gotosubreddit \(subreddit?.s.displayName)")
+        currentSubreddit = subreddit
+        addTitle()
+        redditLoader.getSubreddit(subreddit?.s.displayName)
     }
     
+//    func updateTitle() {
+//        let titleView = self.navigationItem.titleView as? UILabel
+//        titleView?.text = currentSubreddit
+//        
+//    }
+    
     func addTitle() {
+        let icon = currentSubreddit?.s.iconImg
         let titleView = UILabel()
-        titleView.text = "Reddit"
+        titleView.text = currentSubreddit?.s.displayName ?? "Frontpage"
         titleView.font = AppFont()
         titleView.textColor = .flatWhite
         let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
         titleView.frame = CGRect(origin: .zero, size: CGSize(width: width, height: 500))
         self.navigationItem.titleView = titleView
+        
+//        if let urlString = currentSubreddit?.s.bannerImg {
+//            if let url = URL(string: urlString) {
+//                if let data = try? Data(contentsOf: url) {
+//                self.navigationController?.navigationBar.setBackgroundImage(UIImage(data: data), for: UIBarMetrics.default)
+//                }
+//            }
+//        }
         
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(titleWasTapped))
         titleView.isUserInteractionEnabled = true
@@ -94,7 +114,7 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         let startPoint = CGPoint(x: self.view.frame.width / 2, y: 55)
         //let searchView = AMSearchViewController().view!
         
-        let searchView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 500))
+        let searchView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 550))
         //let searchView = AMSearchViewController()
         
         let searchController = AMSearchViewController(rl: redditLoader)

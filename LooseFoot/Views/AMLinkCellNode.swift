@@ -10,6 +10,7 @@ import AsyncDisplayKit
 import ChameleonFramework
 import FontAwesome_swift
 import UIColor_Hex_Swift
+import Toaster
 
 class AMLinkCellNode: ASCellNode {
     
@@ -26,6 +27,7 @@ class AMLinkCellNode: ASCellNode {
     fileprivate let goldNode = ASTextNode()
     fileprivate let nsfwNode = ASTextNode()
     fileprivate let spoilerNode = ASTextNode()
+    fileprivate let voteNode = ASTextNode()
     let middleStackSpec = ASStackLayoutSpec.vertical()
     let horizontalStackSpec = ASStackLayoutSpec.horizontal()
     let rightSideStackSpec = ASStackLayoutSpec.vertical()
@@ -44,11 +46,26 @@ class AMLinkCellNode: ASCellNode {
     var leftSideChildren: [ASLayoutElement]?
     var horizontalStackChildren: [ASLayoutElement]?
     
+    func cellSwipedLeft() {
+        Toast(text: "swipe left: \(link.l.author)").show()
+    }
+    func cellSwipedRight() {
+        Toast(text: "swipe right: \(link.l.author)").show()
+    }
+    
     init(link: AMLink) {
         self.link = link
 
         // init the super
         super.init()
+        
+        let leftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(cellSwipedLeft))
+        leftRecognizer.direction = .left
+        let rightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(cellSwipedRight))
+        rightRecognizer.direction = .right
+        self.view.isUserInteractionEnabled = true
+        self.view.addGestureRecognizer(leftRecognizer)
+        self.view.addGestureRecognizer(rightRecognizer)
         
         topRowChildren = [subredditNode]
         bottomRowChildren = [authorNode]
@@ -58,6 +75,22 @@ class AMLinkCellNode: ASCellNode {
         self.automaticallyManagesSubnodes = true
         backgroundColor = .flatBlack
         
+        
+        // Check for vote
+        switch link.l.likes {
+        case .down:
+            let text = NSMutableAttributedString(string: String.fontAwesomeIcon(name: .arrowDown), attributes:
+                [NSFontAttributeName: UIFont.fontAwesome(ofSize: 15),
+                 NSForegroundColorAttributeName: UIColor.flatSkyBlue])
+            voteNode.attributedText = text
+        case .up:
+            let text = NSMutableAttributedString(string: String.fontAwesomeIcon(name: .arrowUp), attributes:
+                [NSFontAttributeName: UIFont.fontAwesome(ofSize: 15),
+                 NSForegroundColorAttributeName: UIColor.orange])
+            voteNode.attributedText = text
+        case .none:
+            break
+        }
         
         // Check for Image
         imageNode.shouldRenderProgressImages = true
@@ -186,7 +219,9 @@ class AMLinkCellNode: ASCellNode {
             imageNode.style.preferredSize = CGSize(width: 0, height: 0)
         }
         
-        
+        let voteNodeSpec = ASRelativeLayoutSpec()
+        let pointsNodeSpec = ASRelativeLayoutSpec()
+        let commentsNodeSpec = ASRelativeLayoutSpec()
         
         linkFlairNode.style.flexGrow = 1.0
         linkFlairNode.style.flexShrink = 1.0
@@ -215,9 +250,21 @@ class AMLinkCellNode: ASCellNode {
         leftSideStackSpec.spacing = 5.0
         leftSideStackSpec.children = [imageNode]
         
+        pointsNodeSpec.verticalPosition = .start
+        pointsNodeSpec.children = [pointsNode]
+        pointsNodeSpec.horizontalPosition = .start
+        
+        commentsNodeSpec.verticalPosition = .start
+        commentsNodeSpec.children = [commentsNode]
+        commentsNodeSpec.horizontalPosition = .start
+        
+        voteNodeSpec.verticalPosition = .end
+        voteNodeSpec.children = [voteNode]
+        voteNodeSpec.horizontalPosition = .end
+
         rightSideStackSpec.alignItems = .center
         rightSideStackSpec.spacing = 5.0
-        rightSideStackSpec.children = [pointsNode, commentsNode]
+        rightSideStackSpec.children = [pointsNodeSpec, commentsNodeSpec, voteNodeSpec]
         
         horizontalStackSpec.alignItems = .start
         horizontalStackSpec.spacing = 5.0

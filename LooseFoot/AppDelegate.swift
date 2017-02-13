@@ -52,6 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                name: .firInstanceIDTokenRefresh,
                                                object: nil)
         // [END add_token_refresh_observer]
+        
+        //let token = FIRMessaging.tok
         return true
     }
     
