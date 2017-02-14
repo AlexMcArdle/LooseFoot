@@ -257,7 +257,7 @@ class AMHeaderCellNode: ASCellNode {
             imageIconNode.imageModificationBlock = { image in
                 let width: CGFloat = 2
                 let color: UIColor = .black
-                return image.makeRoundedImage(size: imageSize, borderWidth: 2, color: color)
+                return image.makeRoundedImage(size: imageSize, borderWidth: width, color: color)
             }
         } else {
             imageIconNode.style.preferredSize = CGSize(width: 0, height: 0)

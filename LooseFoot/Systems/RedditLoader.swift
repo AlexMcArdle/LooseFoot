@@ -31,7 +31,7 @@ protocol RedditLoaderDelegate: class {
     func redditLoaderDidUpdateComments(redditLoader: RedditLoader, comments: [AMComment])
     func redditLoaderDidSelectLink(redditLoader: RedditLoader)
     func redditLoaderDidReturnToPosts(redditLoader: RedditLoader)
-    func redditLoaderDidVote(redditLoader: RedditLoader)
+    func redditLoaderDidVote(redditLoader: RedditLoader, link: AMLink)
     func redditLoaderDidUpdateSubreddits(redditLoader: RedditLoader)
 }
 
@@ -107,7 +107,7 @@ class RedditLoader {
             do {
                 let token = try OAuth2TokenRepository.token(of: name)
                 self.redditSession = Session(token: token)
-                Toast(text: "Logged in: \(name)").show()
+                print("Logged in: \(name)")
             } catch { print("token error") }
         }
     }
@@ -176,6 +176,7 @@ class RedditLoader {
 
     func vote(link: AMLink, direction: VoteDirection) {
         //print("vote: \(direction.rawValue) + \(post.postPosition)")
+        connect()
         let newDir = (link.l.likes == direction) ? .none : direction
         do {
             try redditSession.setVote(newDir, name: link.l.name, completion: { (result) in
@@ -189,7 +190,8 @@ class RedditLoader {
                         let linkIndex: Int = self.links.index(of: link)!
                         print("voted: \(linkIndex)")
                         //self.links[linkIndex].l.likes = newDir
-                        self.delegate?.redditLoaderDidVote(redditLoader: self)
+                        self.links[linkIndex].l.likes = newDir
+                        self.delegate?.redditLoaderDidVote(redditLoader: self, link: self.links[linkIndex])
                     }
                 }
                 

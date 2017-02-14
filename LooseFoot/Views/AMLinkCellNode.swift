@@ -15,6 +15,7 @@ import Toaster
 class AMLinkCellNode: ASCellNode {
     
     let link: AMLink
+    let redditLoader: RedditLoader
     
     fileprivate let titleNode = ASTextNode()
     fileprivate let authorNode = ASTextNode()
@@ -28,6 +29,8 @@ class AMLinkCellNode: ASCellNode {
     fileprivate let nsfwNode = ASTextNode()
     fileprivate let spoilerNode = ASTextNode()
     fileprivate let voteNode = ASTextNode()
+    fileprivate let distinguishedNode = ASTextNode()
+    fileprivate let stickyNode = ASTextNode()
     let middleStackSpec = ASStackLayoutSpec.vertical()
     let horizontalStackSpec = ASStackLayoutSpec.horizontal()
     let rightSideStackSpec = ASStackLayoutSpec.vertical()
@@ -48,13 +51,16 @@ class AMLinkCellNode: ASCellNode {
     
     func cellSwipedLeft() {
         Toast(text: "swipe left: \(link.l.author)").show()
+        redditLoader.vote(link: self.link, direction: .up)
     }
     func cellSwipedRight() {
         Toast(text: "swipe right: \(link.l.author)").show()
+        redditLoader.vote(link: self.link, direction: .down)
     }
     
-    init(link: AMLink) {
+    init(link: AMLink, loader: RedditLoader) {
         self.link = link
+        self.redditLoader = loader
 
         // init the super
         super.init()
@@ -102,7 +108,42 @@ class AMLinkCellNode: ASCellNode {
         
         titleNode.attributedText = NSAttributedString.attributedString(string: link.l.title, fontSize: 16, color: .flatWhiteDark)
         subredditNode.attributedText = NSAttributedString.attributedString(string: link.l.subreddit, fontSize: 12, color: UIColor.flatSkyBlue)
-        authorNode.attributedText = NSAttributedString.attributedString(string: link.l.author, fontSize: 12, color: .flatSand)
+        
+        
+        // Author node setup
+        // Check for distinguishments (is that a word?)
+        let authorColor: UIColor
+        if let distinguish = link.l.distinguished {
+            let string: NSAttributedString
+            
+            switch distinguish {
+            case "moderator":
+                string = NSAttributedString(string: "M", attributes:
+                    [NSFontAttributeName: AppFont(size: 15, bold: true),
+                     NSForegroundColorAttributeName: UIColor.flatGreen])
+                authorColor = .flatGreen
+            case "admin":
+                string = NSAttributedString(string: "A", attributes:
+                    [NSFontAttributeName: AppFont(size: 15, bold: true),
+                     NSForegroundColorAttributeName: UIColor.flatRed])
+                authorColor = .flatRed
+            case "special":
+                string = NSAttributedString(string: "S", attributes:
+                    [NSFontAttributeName: AppFont(size: 15, bold: true),
+                     NSForegroundColorAttributeName: UIColor.flatYellowDark])
+                authorColor = .flatYellowDark
+            default:
+                string = NSAttributedString(string: "")
+                authorColor = .flatSand
+            }
+            
+            if(string.string != "") {
+                distinguishedNode.attributedText = string
+                bottomRowChildren?.append(distinguishedNode)
+            }
+        } else { authorColor = .flatSand }
+        authorNode.attributedText = NSAttributedString.attributedString(string: link.l.author, fontSize: 12, color: authorColor)
+        
         
         var scoreString = String(link.l.score)
         if(link.l.score >= 1000) {
@@ -194,6 +235,14 @@ class AMLinkCellNode: ASCellNode {
             goldNode.attributedText = text as NSAttributedString
             
             topRowChildren?.append(goldNode)
+        }
+        
+        // Check for Sticky
+        if(link.l.stickied) {
+            stickyNode.attributedText = NSAttributedString(string: String.fontAwesomeIcon(name: .thumbTack), attributes:
+                [NSFontAttributeName: UIFont.fontAwesome(ofSize: 12),
+                 NSForegroundColorAttributeName: UIColor.flatSkyBlue])
+            topRowChildren?.insert(stickyNode, at: 0)
         }
     }
     
