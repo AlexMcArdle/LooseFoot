@@ -57,8 +57,10 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         
     }
     
+    
+    
     override func didMove(toParentViewController parent: UIViewController?) {
-        //super.didMove(toParentViewController: parent)
+        super.didMove(toParentViewController: parent)
         addTitle()
         addToolbar()
     }
@@ -173,6 +175,10 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     func rightNavBarButtonTouched() {
         redditLoader.login()
     }
@@ -193,8 +199,13 @@ extension AMSubredditViewController: RedditLoaderDelegate {
         print("redditLoaderDidVote")
         //tableNode.reloadData()
         let linkIndex = redditLoader.links.index(of: link)
-        tableNode.reloadRows(at: [IndexPath(row: linkIndex!, section:0),
-                                  IndexPath(row: linkIndex!, section:1)], with: UITableViewRowAnimation.fade)
+        let sectionNum: Int
+        if let sub = currentSubreddit {
+            sectionNum = 1
+        } else {
+            sectionNum = 0
+        }
+        tableNode.reloadRows(at: [IndexPath(row: linkIndex!, section: sectionNum)], with: UITableViewRowAnimation.fade)
     }
     func redditLoaderDidReturnToPosts(redditLoader: RedditLoader) {
         //adapter.reloadObjects(redditLoader.posts)
@@ -211,6 +222,7 @@ extension AMSubredditViewController: ASTableDataSource {
     func numberOfSections(in tableNode: ASTableNode) -> Int {
         return 2
     }
+    
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
         //return layoutExamples.count
         switch section {
@@ -229,16 +241,17 @@ extension AMSubredditViewController: ASTableDataSource {
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
         //return OverviewCellNode(layoutExampleType: layoutExamples[indexPath.row])
-        let linkCell = AMLinkCellNode(link: redditLoader.links[indexPath.row], loader: redditLoader)
         switch indexPath.section {
         case 0:
             if let sub = currentSubreddit {
                 let cell = AMHeaderCellNode(sub)
                 return cell
             } else {
+                let linkCell = AMLinkCellNode(link: redditLoader.links[indexPath.row], loader: redditLoader)
                 return linkCell
             }
         case 1:
+            let linkCell = AMLinkCellNode(link: redditLoader.links[indexPath.row], loader: redditLoader)
             return linkCell
         default:
             return ASCellNode()

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6D045DF21E484C120064AE59 /* AMSubredditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D045DF11E484C120064AE59 /* AMSubredditViewController.swift */; };
 		6D045DF41E484CC10064AE59 /* TailLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D045DF31E484CC10064AE59 /* TailLoadingCell.swift */; };
+		6D06AA7D1E54F611000D4783 /* AMHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D06AA7C1E54F611000D4783 /* AMHomeViewController.swift */; };
 		6D25FBCF1E4EB67100CFEDB2 /* AMNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D25FBCE1E4EB67100CFEDB2 /* AMNavigationBar.swift */; };
 		6D25FBD11E4EBB1800CFEDB2 /* AMSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D25FBD01E4EBB1800CFEDB2 /* AMSearchViewController.swift */; };
 		6D3C64EB1E36D39F007DC81B /* AMComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3C64EA1E36D39F007DC81B /* AMComment.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		6D045DF11E484C120064AE59 /* AMSubredditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMSubredditViewController.swift; sourceTree = "<group>"; };
 		6D045DF31E484CC10064AE59 /* TailLoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TailLoadingCell.swift; sourceTree = "<group>"; };
+		6D06AA7C1E54F611000D4783 /* AMHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMHomeViewController.swift; sourceTree = "<group>"; };
 		6D25FBCE1E4EB67100CFEDB2 /* AMNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMNavigationBar.swift; sourceTree = "<group>"; };
 		6D25FBD01E4EBB1800CFEDB2 /* AMSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMSearchViewController.swift; sourceTree = "<group>"; };
 		6D3C64EA1E36D39F007DC81B /* AMComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMComment.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				6D045DF11E484C120064AE59 /* AMSubredditViewController.swift */,
 				6DFC65111E4BBA9500333C47 /* AMCommentsViewController.swift */,
 				6D25FBD01E4EBB1800CFEDB2 /* AMSearchViewController.swift */,
+				6D06AA7C1E54F611000D4783 /* AMHomeViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				6D8375A11E34A81A00A7915A /* AppDelegate.swift in Sources */,
 				6D25FBD11E4EBB1800CFEDB2 /* AMSearchViewController.swift in Sources */,
 				6DFC65121E4BBA9500333C47 /* AMCommentsViewController.swift in Sources */,
+				6D06AA7D1E54F611000D4783 /* AMHomeViewController.swift in Sources */,
 				6D54BDD91E516738006C65CD /* AMHeader.swift in Sources */,
 				6D6DC43E1E4C30C9004457DF /* AMCommentCellNode.swift in Sources */,
 				6D54BDD71E5166C9006C65CD /* AMHeaderCellNode.swift in Sources */,

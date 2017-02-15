@@ -208,11 +208,11 @@ class AMLinkCellNode: ASCellNode {
             topRowChildren?.insert(nsfwNode, at: 0)
         }
         // Check for Spoiler
-        if(link.l.spoiler != 0) {
-            spoilerNode.attributedText = NSAttributedString.attributedString(string: "SPOILER", fontSize: 10, color: .flatRedDark)
+        if(link.l.spoiler) {
+            spoilerNode.attributedText = NSAttributedString.attributedString(string: "SPOILER", fontSize: 10, color: .flatWhite)
             spoilerNode.textContainerInset = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 2)
             spoilerNode.borderWidth = 1.0
-            spoilerNode.borderColor = UIColor.flatRedDark.cgColor
+            spoilerNode.borderColor = UIColor.flatWhite.cgColor
             spoilerNode.cornerRadius = 3.0
             
             topRowChildren?.insert(spoilerNode, at: 0)

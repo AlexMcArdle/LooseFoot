@@ -39,9 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nav = CustomNavigationController(navigationBarClass: AMNavigationBar.self, toolbarClass: AMToolbar.self)
         //let nav = CustomNavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
 
+        //nav.pushViewController(AMSubredditViewController(subreddit: "powerlanguagetest", firstRun: true), animated: true)
         nav.pushViewController(AMSubredditViewController(firstRun: true), animated: true)
-        //nav.pushViewController(AMPagerViewController(), animated: true)
 
+        //window?.rootViewController = AMHomeViewController()
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
         
