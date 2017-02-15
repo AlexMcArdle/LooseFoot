@@ -68,7 +68,7 @@ extension AMCommentsViewController: RedditLoaderDelegate {
     func redditLoaderDidSelectLink(redditLoader: RedditLoader) {
         //adapter.reloadObjects(redditLoader.posts)
     }
-    func redditLoaderDidVote(redditLoader: RedditLoader) {
+    func redditLoaderDidVote(redditLoader: RedditLoader, link: AMLink) {
         //adapter.reloadObjects(redditLoader.posts)
     }
     func redditLoaderDidReturnToPosts(redditLoader: RedditLoader) {
@@ -100,7 +100,7 @@ extension AMCommentsViewController: ASTableDataSource {
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
-        return AMCommentCellNode(comment: comments![indexPath.section])
+        return AMCommentCellNode(comment: comments![indexPath.section], link: link!)
     }
 }
 

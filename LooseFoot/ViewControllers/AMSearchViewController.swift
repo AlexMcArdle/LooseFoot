@@ -90,7 +90,7 @@ extension AMSearchViewController: RedditLoaderDelegate {
     func redditLoaderDidSelectLink(redditLoader: RedditLoader) {
         //adapter.reloadObjects(redditLoader.posts)
     }
-    func redditLoaderDidVote(redditLoader: RedditLoader) {
+    func redditLoaderDidVote(redditLoader: RedditLoader, link: AMLink) {
         //adapter.reloadObjects(redditLoader.posts)
     }
     func redditLoaderDidReturnToPosts(redditLoader: RedditLoader) {

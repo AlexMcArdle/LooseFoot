@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        //FPSCounter.showInStatusBar(UIApplication.shared)
+        FPSCounter.showInStatusBar(UIApplication.shared)
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.black
@@ -39,9 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nav = CustomNavigationController(navigationBarClass: AMNavigationBar.self, toolbarClass: AMToolbar.self)
         //let nav = CustomNavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
 
+        //nav.pushViewController(AMSubredditViewController(subreddit: "powerlanguagetest", firstRun: true), animated: true)
         nav.pushViewController(AMSubredditViewController(firstRun: true), animated: true)
-        //nav.pushViewController(AMPagerViewController(), animated: true)
 
+        //window?.rootViewController = AMHomeViewController()
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
         
@@ -53,7 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                object: nil)
         // [END add_token_refresh_observer]
         
-        //let token = FIRMessaging.tok
         return true
     }
     

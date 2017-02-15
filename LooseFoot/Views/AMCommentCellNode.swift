@@ -24,6 +24,7 @@ import SwiftyMarkdown
 class AMCommentCellNode: ASCellNode {
     
     let comment: AMComment
+    let link: AMLink
     
     fileprivate let commentTextNode = ASTextNode()
     fileprivate let authorNode = ASTextNode()
@@ -35,12 +36,16 @@ class AMCommentCellNode: ASCellNode {
     fileprivate let commentFlairNode = ASTextNode()
     fileprivate let goldNode = ASTextNode()
     
+    var isMinimized: Bool
+    
     let verticleStackSpec = ASStackLayoutSpec.vertical()
     
     var commentChildren: [ASLayoutElement]? = []
     
-    init(comment: AMComment) {
+    init(comment: AMComment, link: AMLink) {
         self.comment = comment
+        self.isMinimized = false
+        self.link = link
         
         // init the super
         super.init()
@@ -59,18 +64,7 @@ class AMCommentCellNode: ASCellNode {
         
         commentChildren = [verticleStackSpec]
         
-        // Check for replies
-        if(self.comment.c.replies.children.count > 0) {
-            var tempComments: [Comment] = []
-            tempComments.append(contentsOf: self.comment.c.replies.children.flatMap{$0 as? Comment})
-            var newComments: [AMComment] = []
-            for newComment in tempComments {
-                newComments.append(AMComment(comment: newComment))
-                commentChildren?.append(AMCommentCellNode(comment: AMComment(comment: newComment)))
-            }
-            print("comments: \(self.comment.c.replies.children.count)")
-            
-        }
+        checkForReplies()
         
         // Markdown Parser
         let md = SwiftyMarkdown(string: comment.c.body)
@@ -89,7 +83,24 @@ class AMCommentCellNode: ASCellNode {
         //commentTextNode.attributedText = NSAttributedString.attributedString(string: comment.c.bodyHtml, fontSize: 16, color: .flatWhiteDark)
         
         //subredditNode.attributedText = NSAttributedString.attributedString(string: comment.subreddit, fontSize: 12, color: .flatSkyBlue)
-        authorNode.attributedText = NSAttributedString.attributedString(string: comment.c.author, fontSize: 12, color: .flatPinkDark)
+        
+        var color: UIColor
+        if let mark = comment.c.distinguished {
+            switch mark {
+            case "admin":
+                color = .flatRed
+            case "moderator":
+                color = .flatGreen
+            case "special":
+                color = .flatYellowDark
+            default:
+                color = .flatSand
+            }
+        } else { color = .flatSand }
+        if(comment.c.author.lowercased() == link.l.author.lowercased()) {
+            color = .flatSkyBlue
+        }
+        authorNode.attributedText = NSAttributedString.attributedString(string: comment.c.author, fontSize: 12, color: color)
         
         var scoreString = String(comment.c.score)
         if(comment.c.score >= 1000) {
@@ -124,12 +135,31 @@ class AMCommentCellNode: ASCellNode {
         }
     }
     
+    func checkForReplies() {
+        if(self.comment.c.replies.children.count > 0) {
+            var tempComments: [Comment] = []
+            tempComments.append(contentsOf: self.comment.c.replies.children.flatMap{$0 as? Comment})
+            var newComments: [AMComment] = []
+            for newComment in tempComments {
+                newComments.append(AMComment(comment: newComment))
+                commentChildren?.append(AMCommentCellNode(comment: AMComment(comment: newComment), link: link))
+            }
+            print("comments: \(self.comment.c.replies.children.count)")
+            
+        }
+    }
     func cellSelected() {
         print("cellSelected author: \(comment.c.author)")
-        let textCell = ASTextCellNode()
-        textCell.text = "minimized"
-        commentChildren = [verticleStackSpec]
-        self.setNeedsLayout()
+        
+        if(isMinimized) {
+            checkForReplies()
+            isMinimized = false
+            self.setNeedsLayout()
+        } else {
+            commentChildren = [verticleStackSpec]
+            isMinimized = true
+            self.setNeedsLayout()
+        }
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
