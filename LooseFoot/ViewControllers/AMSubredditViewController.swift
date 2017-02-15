@@ -220,7 +220,9 @@ extension AMSubredditViewController: RedditLoaderDelegate {
 
 extension AMSubredditViewController: ASTableDataSource {
     func numberOfSections(in tableNode: ASTableNode) -> Int {
-        return 2
+        if let sub = currentSubreddit {
+            return 2
+        } else { return 1 }
     }
     
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
