@@ -38,6 +38,9 @@ class AMLinkCellNode: ASCellNode {
     let topRowStackSpec = ASStackLayoutSpec.horizontal()
     let bottomRowStackSpec = ASStackLayoutSpec.horizontal()
     
+    let myView = UIView()
+    let pointerView = UIView()
+    
     let linkFlairBackground = ASDisplayNode()
     let authorFlairBackground = ASDisplayNode()
     
@@ -56,6 +59,77 @@ class AMLinkCellNode: ASCellNode {
         } else if gestureRecognizer.direction == .right {
             Toast(text: "swipe right: \(link.l.author)").show()
             redditLoader.vote(link: self.link, direction: .down)
+        }
+    }
+    
+    func holdGesture(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        let location = gestureRecognizer.location(in: owningNode?.view)
+        let state = gestureRecognizer.state
+        if(gestureRecognizer.state == .began) {
+            print("began")
+            
+            myView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
+            
+            let subView1 = UIView()
+            subView1.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            subView1.backgroundColor = .flatRed
+            let subView2 = UIView()
+            subView2.frame = CGRect(x: 0, y: 100, width: 50, height: 50)
+            subView2.backgroundColor = .flatYellow
+            let subView3 = UIView()
+            subView3.frame = CGRect(x: 100, y: 0, width: 50, height: 50)
+            subView3.backgroundColor = .flatSkyBlue
+            let subView4 = UIView()
+            subView4.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
+            subView4.backgroundColor = .flatOrange
+            
+            pointerView.frame = CGRect(x: 90, y: 90, width: 20, height: 20)
+            pointerView.backgroundColor = .flatGreen
+            
+            myView.center = CGPoint(x: location.x, y: location.y)
+            myView.backgroundColor = .clear
+            
+            myView.addSubview(subView1)
+            myView.addSubview(subView2)
+            myView.addSubview(subView3)
+            myView.addSubview(subView4)
+            myView.addSubview(pointerView)
+            owningNode?.view.addSubview(myView)
+        } else if(gestureRecognizer.state == .changed) {
+            //myView.center = CGPoint(x: location.x, y: location.y - 50)
+            pointerView.center = gestureRecognizer.location(in: myView)
+            for subview in myView.subviews {
+                let pointerCenter = pointerView.center
+                let subViewCenter = subview.center
+                
+                let xDist = pointerCenter.x - subViewCenter.x
+                let yDist = pointerCenter.y - subViewCenter.y
+                let distance = sqrt((xDist * xDist) + (yDist * yDist))
+                if(distance <= 40.0) {
+                    pointerView.center = subview.center
+                }
+            }
+        } else {
+            var distances: [CGFloat] = []
+            for subview in myView.subviews {
+                if(subview == pointerView) { continue }
+                let pointerCenter = pointerView.center
+                let subViewCenter = subview.center
+                
+                let xDist = pointerCenter.x - subViewCenter.x
+                let yDist = pointerCenter.y - subViewCenter.y
+                let distance = sqrt((xDist * xDist) + (yDist * yDist))
+                print("distance: \(distance)")
+                if(distance <= 15.0) {
+                    print("selected: \(myView.subviews.index(of: subview)!)")
+                }
+            }
+            
+            pointerView.removeFromSuperview()
+            for subview in myView.subviews {
+                subview.removeFromSuperview()
+            }
+            myView.removeFromSuperview()
         }
     }
 //    func panGesture(_ panRecognizer: UIPanGestureRecognizer) {
@@ -92,6 +166,13 @@ class AMLinkCellNode: ASCellNode {
         let rightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(followSwipeGesture(_:)))
         rightRecognizer.direction = .right
         self.view.addGestureRecognizer(rightRecognizer)
+        
+        // Hold Gesture
+        let holdRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(holdGesture(_:)))
+        //holdRecognizer.numberOfTapsRequired = 1
+        //holdRecognizer.numberOfTouchesRequired = 1
+        //holdRecognizer.allowableMovement = 10.0
+        self.view.addGestureRecognizer(holdRecognizer)
         
         // Pan gesture
         //let pangGesture = UIGestureRecognizer(target: self, action: #selector(panGesture2(_:)))

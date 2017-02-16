@@ -26,7 +26,11 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         guard overlayInactive else { return }
         overlayInactive = false
         print("longPress")
+        let location: CGPoint = gestureRecognizer.location(in: tableNode.view)
         
+        let view = UIView(frame: CGRect(x: location.x, y: location.y, width: 100, height: 100))
+        view.backgroundColor = .black
+        self.tableNode.view.addSubview(view)
 //        // Create the dialog
 //        let popup = PopupDialog(title: "title", message: "message")
 //        
@@ -49,7 +53,6 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         
         super.init(node: tableNode)
         tableNode.backgroundColor = .flatBlackDark
-        tableNode.isUserInteractionEnabled = true
         
         addTouchRecognizers()
         
@@ -69,11 +72,14 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
     }
     
     func addTouchRecognizers() {
+        
+        tableNode.isUserInteractionEnabled = true
+
         // Long Press
         let touchRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         touchRecognizer.numberOfTouchesRequired = 1
         touchRecognizer.allowableMovement = 10.0
-        tableNode.view.addGestureRecognizer(touchRecognizer)
+        //tableNode.view.addGestureRecognizer(touchRecognizer)
     }
     
     func pressHome() {
@@ -178,6 +184,7 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
     func rightNavBarButtonTouched() {
         redditLoader.login()
     }
+    
     
 }
 
