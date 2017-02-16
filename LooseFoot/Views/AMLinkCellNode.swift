@@ -49,15 +49,59 @@ class AMLinkCellNode: ASCellNode {
     var leftSideChildren: [ASLayoutElement]?
     var horizontalStackChildren: [ASLayoutElement]?
     
-    func cellSwipedLeft() {
-        Toast(text: "swipe left: \(link.l.author)").show()
-        redditLoader.vote(link: self.link, direction: .up)
+    func followSwipeGesture(_ gestureRecognizer: UISwipeGestureRecognizer) {
+        if gestureRecognizer.direction == .left {
+            Toast(text: "swipe left: \(link.l.author)").show()
+            redditLoader.vote(link: self.link, direction: .up)
+        } else if gestureRecognizer.direction == .right {
+            Toast(text: "swipe right: \(link.l.author)").show()
+            redditLoader.vote(link: self.link, direction: .down)
+        }
     }
-    func cellSwipedRight() {
-        Toast(text: "swipe right: \(link.l.author)").show()
-        redditLoader.vote(link: self.link, direction: .down)
-    }
+//    func panGesture(_ panRecognizer: UIPanGestureRecognizer) {
+//        if panRecognizer.state == .began || panRecognizer.state == .changed {
+//            let translation = panRecognizer.translation(in: owningNode?.view)
+//            panRecognizer.view?.center = CGPoint(x: panRecognizer.view!.center.x + translation.x, y: panRecognizer.view!.center.y)
+//            panRecognizer.setTranslation(.zero, in: owningNode?.view)
+//        } else {
+//            let currentPos = panRecognizer.view!.center
+//            let parentPos = owningNode!.view.center
+//            let ratio = currentPos.x / parentPos.x
+//            if (ratio <= 0.75) {
+//                print("left")
+//                cellSwipedLeft()
+//            } else if (ratio >= 1.25) {
+//                print("right")
+//                cellSwipedRight()
+//            }
+//            panRecognizer.view?.center = CGPoint(x: (owningNode?.view.center.x)!, y: panRecognizer.view!.center.y)
+//            panRecognizer.setTranslation(.zero, in: owningNode?.view)
+//        }
+//        
+//    }
     
+    func addTouchRecognizers() {
+        self.view.isUserInteractionEnabled = true
+
+        // Left Swipe
+        let leftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(followSwipeGesture(_:)))
+        leftRecognizer.direction = .left
+        self.view.addGestureRecognizer(leftRecognizer)
+        
+        // Right Swipe
+        let rightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(followSwipeGesture(_:)))
+        rightRecognizer.direction = .right
+        self.view.addGestureRecognizer(rightRecognizer)
+        
+        // Pan gesture
+        //let pangGesture = UIGestureRecognizer(target: self, action: #selector(panGesture2(_:)))
+//        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(_:)))
+//        panRecognizer.maximumNumberOfTouches = 1
+//        panRecognizer.minimumNumberOfTouches = 1
+//        
+//        self.view.addGestureRecognizer(panRecognizer)
+    }
+
     init(link: AMLink, loader: RedditLoader) {
         self.link = link
         self.redditLoader = loader
@@ -65,13 +109,7 @@ class AMLinkCellNode: ASCellNode {
         // init the super
         super.init()
         
-        let leftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(cellSwipedLeft))
-        leftRecognizer.direction = .left
-        let rightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(cellSwipedRight))
-        rightRecognizer.direction = .right
-        self.view.isUserInteractionEnabled = true
-        self.view.addGestureRecognizer(leftRecognizer)
-        self.view.addGestureRecognizer(rightRecognizer)
+        addTouchRecognizers()
         
         topRowChildren = [subredditNode]
         bottomRowChildren = [authorNode]

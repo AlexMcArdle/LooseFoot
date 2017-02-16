@@ -65,6 +65,7 @@ PODS:
     - PINCache (= 3.0.1-beta.2)
     - PINRemoteImage/Core
   - Popover (1.0.4)
+  - PopupDialog (0.5.3)
   - Protobuf (3.2.0)
   - Realm (2.4.2):
     - Realm/Headers (= 2.4.2)
@@ -91,6 +92,7 @@ DEPENDENCIES:
   - FPSCounter
   - Kingfisher
   - Popover
+  - PopupDialog
   - RealmSwift (from `https://github.com/realm/realm-cocoa.git`, branch `master`)
   - reddift
   - SwiftyJSON
@@ -134,6 +136,7 @@ SPEC CHECKSUMS:
   PINCache: 6d273a6e0754bd26e3f12a38a90dde73cc6a42b2
   PINRemoteImage: ff63baf185088530db6cfa41cb665e2b5126b5c3
   Popover: 8bced665f98824ded3b8114a27f4d2281c78a672
+  PopupDialog: 533dd564f8781633375505b9fbd406f8f146ccc9
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   Realm: d27b758e12d62a3371879a065d4c40aa212c5a54
   RealmSwift: a2485af6fd62369e7126ce0af43ff5430de1e77a
@@ -143,6 +146,6 @@ SPEC CHECKSUMS:
   Toaster: 19f860acd46b7b8aeec5a76d4046a04cb1acca66
   UIColor_Hex_Swift: 95f718452092a3efc8a827dffd2c04d3237be02d
 
-PODFILE CHECKSUM: 18025d65088e249e829a984d49ed775d87fbd8f3
+PODFILE CHECKSUM: 8ad6c195e5420e24522c208ace08726d71bb91cb
 
 COCOAPODS: 1.2.0

@@ -10,15 +10,30 @@ import UIKit
 import AsyncDisplayKit
 import FontAwesome_swift
 import Popover
+import PopupDialog
 import reddift
 
-class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresentationControllerDelegate {
+class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresentationControllerDelegate, UIGestureRecognizerDelegate {
     let tableNode = ASTableNode()
     //let layoutExamples: [LayoutExampleNode.Type]
     public let redditLoader = RedditLoader()
     
     var currentSubreddit: AMSubreddit?
     var hasBanner = false
+    var overlayInactive = true
+    
+    func longPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        guard overlayInactive else { return }
+        overlayInactive = false
+        print("longPress")
+        
+//        // Create the dialog
+//        let popup = PopupDialog(title: "title", message: "message")
+//        
+//        // Present dialog
+//        self.present(popup, animated: true, completion: {self.overlayInactive = true})
+
+    }
     
     init(subreddit: String? = nil, firstRun: Bool = false) {
         /*layoutExamples = [
@@ -34,9 +49,9 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         
         super.init(node: tableNode)
         tableNode.backgroundColor = .flatBlackDark
+        tableNode.isUserInteractionEnabled = true
         
-        //self.title = "Reddit"
-        // Set Title
+        addTouchRecognizers()
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: String.fontAwesomeIcon(name: .cog), style: .plain, target: self, action: #selector(rightNavBarButtonTouched))
@@ -49,15 +64,22 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         if let subText = subreddit {
             sub = AMSubreddit(sub: Subreddit(subreddit: subText))
         }
+        
         goToSubreddit(sub)
-        //redditLoader.getSubreddit(subreddit)
     }
+    
+    func addTouchRecognizers() {
+        // Long Press
+        let touchRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
+        touchRecognizer.numberOfTouchesRequired = 1
+        touchRecognizer.allowableMovement = 10.0
+        tableNode.view.addGestureRecognizer(touchRecognizer)
+    }
+    
     func pressHome() {
         print("presshome")
         
     }
-    
-    
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
@@ -93,14 +115,7 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         titleView.frame = CGRect(origin: .zero, size: CGSize(width: width, height: 500))
         self.navigationItem.titleView = titleView
         
-//        if let urlString = currentSubreddit?.s.bannerImg {
-//            if let url = URL(string: urlString) {
-//                if let data = try? Data(contentsOf: url) {
-//                self.navigationController?.navigationBar.setBackgroundImage(UIImage(data: data), for: UIBarMetrics.default)
-//                }
-//            }
-//        }
-        
+        // Tap Gesture
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(titleWasTapped))
         titleView.isUserInteractionEnabled = true
         titleView.addGestureRecognizer(recognizer)
@@ -142,25 +157,6 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         searchController.popover = popover
         searchController.subredditViewController = self
         popover.show(searchView, point: startPoint)
-        
-//        let vc = UIViewController()
-//        vc.modalPresentationStyle = UIModalPresentationStyle.popover
-//        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-//        //popover.sourceView = navigationController?.navigationBar.right
-//        popover.delegate = self
-        
-//        //let nav = navigationController as! CustomNavigationController
-//        //nav.modalPresentationStyle = .popover
-//        //vc.popoverPresentationController?.popover
-//        let popover = vc.popoverPresentationController
-//        
-//        vc.preferredContentSize = CGSize(width: 500, height: 600)
-//        popover?.delegate = self
-//        popover?.sourceView = self.view
-//        popover?.sourceRect = CGRect(x: 100, y: 100, width: 0, height: 0)
-//        vc.popoverPresentationController
-        
-//        present(vc, animated: true, completion: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -187,7 +183,6 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
 
 extension AMSubredditViewController: RedditLoaderDelegate {
     func redditLoaderDidUpdateLinks(redditLoader: RedditLoader) {
-        //adapter.performUpdates(animated: true)
         print("redditLoaderDidUpdateLinks")
         tableNode.reloadData()
     }
@@ -195,7 +190,6 @@ extension AMSubredditViewController: RedditLoaderDelegate {
         //adapter.reloadObjects(redditLoader.posts)
     }
     func redditLoaderDidVote(redditLoader: RedditLoader, link: AMLink) {
-        //adapter.reloadObjects(redditLoader.posts)
         print("redditLoaderDidVote")
         //tableNode.reloadData()
         let linkIndex = redditLoader.links.index(of: link)
@@ -243,6 +237,7 @@ extension AMSubredditViewController: ASTableDataSource {
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
         //return OverviewCellNode(layoutExampleType: layoutExamples[indexPath.row])
+        
         switch indexPath.section {
         case 0:
             if let sub = currentSubreddit {
@@ -262,6 +257,10 @@ extension AMSubredditViewController: ASTableDataSource {
 }
 
 extension AMSubredditViewController: ASTableDelegate {
+    func tableNode(_ tableNode: ASTableNode, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
         //let layoutExampleType = (tableNode.nodeForRow(at: indexPath) as! AMLinkCellNode).layoutExampleType
         

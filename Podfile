@@ -19,6 +19,7 @@ target 'LooseFoot' do
   pod 'FPSCounter'
   pod 'SwiftyMarkdown'
   pod 'Popover'
+  pod 'PopupDialog'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Messaging'
