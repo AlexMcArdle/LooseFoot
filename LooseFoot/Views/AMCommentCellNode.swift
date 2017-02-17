@@ -67,17 +67,17 @@ class AMCommentCellNode: ASCellNode {
         checkForReplies()
         
         // Markdown Parser
-        let md = SwiftyMarkdown(string: comment.c.body)
-        md.h1.color = .flatWhite
-        md.h2.color = .flatWhite
-        md.h3.color = .flatWhite
-        md.h4.color = .flatWhite
-        md.h5.color = .flatWhite
-        md.h6.color = .flatWhite
-        md.body.color = .flatWhiteDark
-        md.link.color = .flatSkyBlue
-        let mystring: NSMutableAttributedString = NSMutableAttributedString(attributedString: md.attributedString())
-        mystring.addAttribute(NSFontAttributeName, value: AppFont(size: 12, bold: false), range: NSRange(location: 0, length: mystring.length - 1))
+//        let md = SwiftyMarkdown(string: comment.c.body)
+//        md.h1.color = .flatWhite
+//        md.h2.color = .flatWhite
+//        md.h3.color = .flatWhite
+//        md.h4.color = .flatWhite
+//        md.h5.color = .flatWhite
+//        md.h6.color = .flatWhite
+//        md.body.color = .flatWhiteDark
+//        md.link.color = .flatSkyBlue
+        let mystring = stringFromHtml(string: comment.c.bodyHtml)
+        //mystring.addAttribute(NSFontAttributeName, value: AppFont(size: 12, bold: false), range: NSRange(location: 0, length: mystring.length - 1))
         commentTextNode.attributedText = mystring
         
         //commentTextNode.attributedText = NSAttributedString.attributedString(string: comment.c.bodyHtml, fontSize: 16, color: .flatWhiteDark)
@@ -217,4 +217,17 @@ class AMCommentCellNode: ASCellNode {
         return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), child: middleStackSpec)
     }
     
+    private func stringFromHtml(string: String) -> NSAttributedString? {
+        do {
+            let data = string.data(using: String.Encoding.utf8, allowLossyConversion: true)
+            if let d = data {
+                let str = try NSAttributedString(data: d,
+                                                 options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                                                 documentAttributes: nil)
+                return str
+            }
+        } catch {
+        }
+        return nil
+    }
 }

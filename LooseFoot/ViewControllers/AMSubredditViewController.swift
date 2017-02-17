@@ -185,7 +185,17 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         redditLoader.login()
     }
     
+    func tapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        let tapIndex = gestureRecognizer.view!.tag
+        print("tap")
+        debugPrint (tapIndex)
+        goToComments(tapIndex)
+    }
     
+    func goToComments(_ indexOfLink: Int) {
+        let detail = AMCommentsViewController(link: redditLoader.links[indexOfLink], loader: redditLoader)
+        self.navigationController?.pushViewController(detail, animated: true)
+    }
 }
 
 extension AMSubredditViewController: RedditLoaderDelegate {
@@ -252,6 +262,9 @@ extension AMSubredditViewController: ASTableDataSource {
                 return cell
             } else {
                 let linkCell = AMLinkCellNode(link: redditLoader.links[indexPath.row], loader: redditLoader)
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture(_:)))
+                linkCell.view.tag = indexPath.row
+                linkCell.view.addGestureRecognizer(tapRecognizer)
                 return linkCell
             }
         case 1:

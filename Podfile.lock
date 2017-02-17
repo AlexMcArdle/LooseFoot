@@ -77,7 +77,7 @@ PODS:
   - reddift/MiniKeychain (2.0.1)
   - SwiftyJSON (3.1.4)
   - SwiftyMarkdown (0.3.2)
-  - Toaster (2.0.2)
+  - Toaster (2.0.3)
   - UIColor_Hex_Swift (3.0.2)
 
 DEPENDENCIES:
@@ -113,7 +113,7 @@ CHECKOUT OPTIONS:
     :commit: dcf98f9bf3a632a7f40679b7da46f09681e48526
     :git: https://github.com/ViccAlexander/Chameleon.git
   RealmSwift:
-    :commit: d51ba6c194a1bb6d45e8401aa2fb6e8205f94503
+    :commit: 12cd1de3cd79f7cc4835051b725c5d1094f32876
     :git: https://github.com/realm/realm-cocoa.git
     :submodules: true
 
@@ -143,7 +143,7 @@ SPEC CHECKSUMS:
   reddift: c6dc41a76657a9ca5c07f55a8e8ad6440f3635a9
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   SwiftyMarkdown: 59cea5af966f7fb0ed99dfc29174d82ba1534cfd
-  Toaster: 19f860acd46b7b8aeec5a76d4046a04cb1acca66
+  Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   UIColor_Hex_Swift: 95f718452092a3efc8a827dffd2c04d3237be02d
 
 PODFILE CHECKSUM: 8ad6c195e5420e24522c208ace08726d71bb91cb

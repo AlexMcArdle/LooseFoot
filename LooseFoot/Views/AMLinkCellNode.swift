@@ -31,6 +31,7 @@ class AMLinkCellNode: ASCellNode {
     fileprivate let voteNode = ASTextNode()
     fileprivate let distinguishedNode = ASTextNode()
     fileprivate let stickyNode = ASTextNode()
+    fileprivate let overlayNode = ASDisplayNode()
     let middleStackSpec = ASStackLayoutSpec.vertical()
     let horizontalStackSpec = ASStackLayoutSpec.horizontal()
     let rightSideStackSpec = ASStackLayoutSpec.vertical()
@@ -38,8 +39,12 @@ class AMLinkCellNode: ASCellNode {
     let topRowStackSpec = ASStackLayoutSpec.horizontal()
     let bottomRowStackSpec = ASStackLayoutSpec.horizontal()
     
-    let myView = UIView()
-    let pointerView = UIView()
+    var myView = UIView()
+    var upvoteView = UILabel()
+    var downvoteView = UILabel()
+    var leftView = UILabel()
+    var rightView = UILabel()
+    var pointerView = UILabel()
     
     let linkFlairBackground = ASDisplayNode()
     let authorFlairBackground = ASDisplayNode()
@@ -62,41 +67,73 @@ class AMLinkCellNode: ASCellNode {
         }
     }
     
+    func setSelected() {
+        //overlayNode.bounds = self.bounds
+        overlayNode.layer.shadowColor = UIColor.white.cgColor
+        overlayNode.layer.shadowOpacity = 0.75
+        overlayNode.layer.shadowOffset = CGSize(width: 0, height: -self.frame.height)
+        overlayNode.layer.shadowRadius = 10
+        overlayNode.layer.shadowPath = UIBezierPath(rect: self.frame).cgPath
+    }
+    func setUnselected() {
+        overlayNode.layer.shadowOpacity = 0
+    }
+    
     func holdGesture(_ gestureRecognizer: UILongPressGestureRecognizer) {
         let location = gestureRecognizer.location(in: owningNode?.view)
         let state = gestureRecognizer.state
-        if(gestureRecognizer.state == .began) {
-            print("began")
+        setSelected()
+        if(state == .began) {
             
             myView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
             
-            let subView1 = UIView()
-            subView1.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-            subView1.backgroundColor = .flatRed
-            let subView2 = UIView()
-            subView2.frame = CGRect(x: 0, y: 100, width: 50, height: 50)
-            subView2.backgroundColor = .flatYellow
-            let subView3 = UIView()
-            subView3.frame = CGRect(x: 100, y: 0, width: 50, height: 50)
-            subView3.backgroundColor = .flatSkyBlue
-            let subView4 = UIView()
-            subView4.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
-            subView4.backgroundColor = .flatOrange
+            upvoteView = UILabel()
+            upvoteView.frame = CGRect(x: 50, y: 0, width: 50, height: 50)
+            upvoteView.backgroundColor = .clear
+            upvoteView.font = UIFont.fontAwesome(ofSize: 50)
+            upvoteView.text = String.fontAwesomeIcon(name: .arrowUp)
+            upvoteView.textColor = .orange
             
-            pointerView.frame = CGRect(x: 90, y: 90, width: 20, height: 20)
-            pointerView.backgroundColor = .flatGreen
+            downvoteView = UILabel()
+            downvoteView.frame = CGRect(x: 50, y: 100, width: 50, height: 50)
+            downvoteView.backgroundColor = .clear
+            downvoteView.font = UIFont.fontAwesome(ofSize: 50)
+            downvoteView.text = String.fontAwesomeIcon(name: .arrowDown)
+            downvoteView.textColor = .flatSkyBlueDark
+            
+            rightView = UILabel()
+            rightView.frame = CGRect(x: 100, y: 50, width: 50, height: 50)
+            rightView.backgroundColor = .clear
+            rightView.font = UIFont.fontAwesome(ofSize: 50)
+            rightView.text = String.fontAwesomeIcon(name: .share)
+            rightView.textColor = .flatWhite
+            
+            leftView = UILabel()
+            leftView.frame = CGRect(x: 0, y: 50, width: 50, height: 50)
+            leftView.backgroundColor = .clear
+            leftView.font = UIFont.fontAwesome(ofSize: 50)
+            leftView.text = String.fontAwesomeIcon(name: .ellipsisH)
+            leftView.textColor = .flatWhiteDark
+            
+            pointerView.frame = CGRect(x: 74, y: 74, width: 2, height: 2)
+            pointerView.text = ""
+            pointerView.textColor = .clear
+            pointerView.backgroundColor = .clear
             
             myView.center = CGPoint(x: location.x, y: location.y)
             myView.backgroundColor = .clear
             
-            myView.addSubview(subView1)
-            myView.addSubview(subView2)
-            myView.addSubview(subView3)
-            myView.addSubview(subView4)
+            myView.addSubview(upvoteView)
+            myView.addSubview(downvoteView)
+            myView.addSubview(leftView)
+            myView.addSubview(rightView)
             myView.addSubview(pointerView)
             owningNode?.view.addSubview(myView)
-        } else if(gestureRecognizer.state == .changed) {
-            //myView.center = CGPoint(x: location.x, y: location.y - 50)
+        } else if(state == .changed) {
+            let insideLocation = gestureRecognizer.location(in: myView)
+            //print(insideLocation)
+            
+//            //myView.center = CGPoint(x: location.x, y: location.y - 50)
             pointerView.center = gestureRecognizer.location(in: myView)
             for subview in myView.subviews {
                 let pointerCenter = pointerView.center
@@ -107,6 +144,9 @@ class AMLinkCellNode: ASCellNode {
                 let distance = sqrt((xDist * xDist) + (yDist * yDist))
                 if(distance <= 40.0) {
                     pointerView.center = subview.center
+                    subview.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                } else {
+                    subview.transform = CGAffineTransform(scaleX: 1, y: 1)
                 }
             }
         } else {
@@ -119,7 +159,6 @@ class AMLinkCellNode: ASCellNode {
                 let xDist = pointerCenter.x - subViewCenter.x
                 let yDist = pointerCenter.y - subViewCenter.y
                 let distance = sqrt((xDist * xDist) + (yDist * yDist))
-                print("distance: \(distance)")
                 if(distance <= 15.0) {
                     print("selected: \(myView.subviews.index(of: subview)!)")
                 }
@@ -130,6 +169,10 @@ class AMLinkCellNode: ASCellNode {
                 subview.removeFromSuperview()
             }
             myView.removeFromSuperview()
+            myView = UIView()
+            
+            setUnselected()
+            
         }
     }
 //    func panGesture(_ panRecognizer: UIPanGestureRecognizer) {
@@ -171,9 +214,13 @@ class AMLinkCellNode: ASCellNode {
         let holdRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(holdGesture(_:)))
         //holdRecognizer.numberOfTapsRequired = 1
         //holdRecognizer.numberOfTouchesRequired = 1
-        //holdRecognizer.allowableMovement = 10.0
+        holdRecognizer.allowableMovement = 10.0
+        holdRecognizer.minimumPressDuration = 0.35
         self.view.addGestureRecognizer(holdRecognizer)
         
+        // Touch Gesture
+        //let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture(_:)))
+        //self.view.addGestureRecognizer(tapRecognizer)
         // Pan gesture
         //let pangGesture = UIGestureRecognizer(target: self, action: #selector(panGesture2(_:)))
 //        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(_:)))
@@ -363,6 +410,10 @@ class AMLinkCellNode: ASCellNode {
                  NSForegroundColorAttributeName: UIColor.flatSkyBlue])
             topRowChildren?.insert(stickyNode, at: 0)
         }
+        
+        // Setup Overlay
+        
+        //overlayNode.layer.shadowPath = UIBezierPath(rect: overlayNode.bounds).cgPath
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -390,6 +441,8 @@ class AMLinkCellNode: ASCellNode {
         let voteNodeSpec = ASRelativeLayoutSpec()
         let pointsNodeSpec = ASRelativeLayoutSpec()
         let commentsNodeSpec = ASRelativeLayoutSpec()
+        let overlayStackSpec = ASOverlayLayoutSpec()
+        let overlayCenterSpec = ASCenterLayoutSpec()
         
         linkFlairNode.style.flexGrow = 1.0
         linkFlairNode.style.flexShrink = 1.0
@@ -438,9 +491,18 @@ class AMLinkCellNode: ASCellNode {
         horizontalStackSpec.spacing = 5.0
         horizontalStackSpec.children = horizontalStackChildren
         
+        overlayNode.style.flexGrow = 1.0
+        overlayNode.style.flexShrink = 0
+        
+        overlayCenterSpec.centeringOptions = .XY
+        overlayCenterSpec.child = overlayNode
+        
+        overlayStackSpec.child = horizontalStackSpec
+        overlayStackSpec.overlay = overlayCenterSpec
         
         
-        return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), child: horizontalStackSpec)
+        
+        return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), child: overlayStackSpec)
     }
     
 }
