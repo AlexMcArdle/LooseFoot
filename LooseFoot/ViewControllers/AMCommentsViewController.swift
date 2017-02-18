@@ -87,24 +87,34 @@ extension AMCommentsViewController: RedditLoaderDelegate {
 
 extension AMCommentsViewController: ASTableDataSource {
     func numberOfSections(in tableNode: ASTableNode) -> Int {
-        return comments?.count ?? 0
+        //return comments?.count ?? 0
+        return 2
     }
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
-//        if((comments?[section].c.replies.children.count)! > 0)
-//        {
-//            return 2
-//        } else {
-//            return 1
-//        }
-        return 1
+        if(section == 0)
+        {
+            return 1
+        } else {
+            return comments?.count ?? 0
+        }
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
-        return AMCommentCellNode(comment: comments![indexPath.section], link: link!)
+        switch indexPath.section {
+        case 0:
+            return AMCommentHeaderCellNode(link: link!, loader: self.redditLoader!)
+        case 1:
+            return AMCommentCellNode(comment: comments![indexPath.row], link: link!)
+        default:
+            return ASCellNode()
+        }
     }
 }
 
 extension AMCommentsViewController: ASTableDelegate {
+    func tableNode(_ tableNode: ASTableNode, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
 //        let layoutExampleType = (tableNode.nodeForRow(at: indexPath) as! OverviewCellNode).layoutExampleType
 //        let detail = LayoutExampleViewController(layoutExampleType: layoutExampleType)

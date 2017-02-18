@@ -10,6 +10,7 @@
 		6D045DF21E484C120064AE59 /* AMSubredditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D045DF11E484C120064AE59 /* AMSubredditViewController.swift */; };
 		6D045DF41E484CC10064AE59 /* TailLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D045DF31E484CC10064AE59 /* TailLoadingCell.swift */; };
 		6D06AA7D1E54F611000D4783 /* AMHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D06AA7C1E54F611000D4783 /* AMHomeViewController.swift */; };
+		6D13CBA01E57D8DD007B7962 /* AMCommentHeaderCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D13CB9F1E57D8DD007B7962 /* AMCommentHeaderCellNode.swift */; };
 		6D25FBCF1E4EB67100CFEDB2 /* AMNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D25FBCE1E4EB67100CFEDB2 /* AMNavigationBar.swift */; };
 		6D25FBD11E4EBB1800CFEDB2 /* AMSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D25FBD01E4EBB1800CFEDB2 /* AMSearchViewController.swift */; };
 		6D3C64EB1E36D39F007DC81B /* AMComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3C64EA1E36D39F007DC81B /* AMComment.swift */; };
@@ -49,6 +50,7 @@
 		6D045DF11E484C120064AE59 /* AMSubredditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMSubredditViewController.swift; sourceTree = "<group>"; };
 		6D045DF31E484CC10064AE59 /* TailLoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TailLoadingCell.swift; sourceTree = "<group>"; };
 		6D06AA7C1E54F611000D4783 /* AMHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMHomeViewController.swift; sourceTree = "<group>"; };
+		6D13CB9F1E57D8DD007B7962 /* AMCommentHeaderCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMCommentHeaderCellNode.swift; sourceTree = "<group>"; };
 		6D25FBCE1E4EB67100CFEDB2 /* AMNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMNavigationBar.swift; sourceTree = "<group>"; };
 		6D25FBD01E4EBB1800CFEDB2 /* AMSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMSearchViewController.swift; sourceTree = "<group>"; };
 		6D3C64EA1E36D39F007DC81B /* AMComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMComment.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				6D54BDD61E5166C9006C65CD /* AMHeaderCellNode.swift */,
 				6D82AF7B1E4858E6006ED99A /* AMLinkCellNode.swift */,
 				6D6DC43D1E4C30C9004457DF /* AMCommentCellNode.swift */,
+				6D13CB9F1E57D8DD007B7962 /* AMCommentHeaderCellNode.swift */,
 				6D514B2B1E4FBACD00267B64 /* AMSearchCellNode.swift */,
 				6D82AF7F1E485AF6006ED99A /* LayoutExampleNode.swift */,
 				6D82AF851E485D11006ED99A /* OverviewCellNode.swift */,
@@ -370,6 +373,7 @@
 				6D8375C41E34AAE100A7915A /* Theme.swift in Sources */,
 				6D045DF21E484C120064AE59 /* AMSubredditViewController.swift in Sources */,
 				6D82AF7C1E4858E6006ED99A /* AMLinkCellNode.swift in Sources */,
+				6D13CBA01E57D8DD007B7962 /* AMCommentHeaderCellNode.swift in Sources */,
 				6D045DF41E484CC10064AE59 /* TailLoadingCell.swift in Sources */,
 				6D514B2C1E4FBACD00267B64 /* AMSearchCellNode.swift in Sources */,
 				6D8375A11E34A81A00A7915A /* AppDelegate.swift in Sources */,

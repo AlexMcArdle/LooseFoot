@@ -7,6 +7,7 @@ PODS:
     - AsyncDisplayKit/Core
     - PINRemoteImage/iOS (= 3.0.0-beta.7)
     - PINRemoteImage/PINCache
+  - BonMot (4.1.1)
   - Cartography (1.0.1)
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
@@ -36,7 +37,7 @@ PODS:
     - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
-  - FontAwesome.swift (1.0.0)
+  - FontAwesome.swift (1.1.0)
   - FPSCounter (2.0.0)
   - GoogleToolboxForMac/DebugUtils (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
@@ -83,12 +84,13 @@ PODS:
 DEPENDENCIES:
   - ActiveLabel
   - AsyncDisplayKit
+  - BonMot
   - Cartography
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Messaging
-  - FontAwesome.swift
+  - FontAwesome.swift (from `https://github.com/thii/FontAwesome.swift.git`)
   - FPSCounter
   - Kingfisher
   - Popover
@@ -103,6 +105,8 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   ChameleonFramework:
     :git: https://github.com/ViccAlexander/Chameleon.git
+  FontAwesome.swift:
+    :git: https://github.com/thii/FontAwesome.swift.git
   RealmSwift:
     :branch: master
     :git: https://github.com/realm/realm-cocoa.git
@@ -112,6 +116,9 @@ CHECKOUT OPTIONS:
   ChameleonFramework:
     :commit: dcf98f9bf3a632a7f40679b7da46f09681e48526
     :git: https://github.com/ViccAlexander/Chameleon.git
+  FontAwesome.swift:
+    :commit: 2309b11d3ed5895fda0bfdc392d16a1d199c97c0
+    :git: https://github.com/thii/FontAwesome.swift.git
   RealmSwift:
     :commit: 12cd1de3cd79f7cc4835051b725c5d1094f32876
     :git: https://github.com/realm/realm-cocoa.git
@@ -120,6 +127,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActiveLabel: 68625f22775f51c31bb691ca8de20f1e5a3bc825
   AsyncDisplayKit: 28de788f9d6ec573be7662f0fe8931e656357e93
+  BonMot: 0ff9144987e0d89e777f334f72e41cb3599cc7ea
   Cartography: c1460e99395b824d9d75360b0382faeb0b33dcd7
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   Firebase: 5bc34d7b5ff5792e3386c8b28dc6265deeab0da4
@@ -128,7 +136,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 1c0a13bf59bb95cdd19577252499f0ec6a03e999
   FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
   FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
-  FontAwesome.swift: 2d32a3d62195343c2004b7c9043294ed2948553a
+  FontAwesome.swift: beb63f208f69f998d00fdb2d4d5d8813b494f3d8
   FPSCounter: d4b8588434c18de19ef819c9fc06f80ce0924d94
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
@@ -146,6 +154,6 @@ SPEC CHECKSUMS:
   Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   UIColor_Hex_Swift: 95f718452092a3efc8a827dffd2c04d3237be02d
 
-PODFILE CHECKSUM: 8ad6c195e5420e24522c208ace08726d71bb91cb
+PODFILE CHECKSUM: a56676973538112bd9fa9e42d1e166acefeda97c
 
 COCOAPODS: 1.2.0

@@ -1,8 +1,8 @@
 //
-//  AMLinkCellNode.swift
+//  AMCommentHeaderCellNode.swift
 //  LooseFoot
 //
-//  Created by Alexander McArdle on 2/6/17.
+//  Created by Alexander McArdle on 2/17/17.
 //  Copyright © 2017 Alexander McArdle. All rights reserved.
 //
 
@@ -12,7 +12,7 @@ import FontAwesome_swift
 import UIColor_Hex_Swift
 import Toaster
 
-class AMLinkCellNode: ASCellNode {
+class AMCommentHeaderCellNode: ASCellNode {
     
     let link: AMLink
     let redditLoader: RedditLoader
@@ -133,7 +133,7 @@ class AMLinkCellNode: ASCellNode {
             let insideLocation = gestureRecognizer.location(in: myView)
             //print(insideLocation)
             
-//            //myView.center = CGPoint(x: location.x, y: location.y - 50)
+            //            //myView.center = CGPoint(x: location.x, y: location.y - 50)
             pointerView.center = gestureRecognizer.location(in: myView)
             for subview in myView.subviews {
                 let pointerCenter = pointerView.center
@@ -161,18 +161,6 @@ class AMLinkCellNode: ASCellNode {
                 let distance = sqrt((xDist * xDist) + (yDist * yDist))
                 if(distance <= 15.0) {
                     print("selected: \(myView.subviews.index(of: subview)!)")
-                    switch myView.subviews.index(of: subview)! {
-                    case 0:
-                        redditLoader.vote(link: self.link, direction: .up)
-                    case 1:
-                        redditLoader.vote(link: self.link, direction: .down)
-                    case 2:
-                        print("2")
-                    case 3:
-                        print("3")
-                    default:
-                        print("error")
-                    }
                 }
             }
             
@@ -187,40 +175,19 @@ class AMLinkCellNode: ASCellNode {
             
         }
     }
-//    func panGesture(_ panRecognizer: UIPanGestureRecognizer) {
-//        if panRecognizer.state == .began || panRecognizer.state == .changed {
-//            let translation = panRecognizer.translation(in: owningNode?.view)
-//            panRecognizer.view?.center = CGPoint(x: panRecognizer.view!.center.x + translation.x, y: panRecognizer.view!.center.y)
-//            panRecognizer.setTranslation(.zero, in: owningNode?.view)
-//        } else {
-//            let currentPos = panRecognizer.view!.center
-//            let parentPos = owningNode!.view.center
-//            let ratio = currentPos.x / parentPos.x
-//            if (ratio <= 0.75) {
-//                print("left")
-//                cellSwipedLeft()
-//            } else if (ratio >= 1.25) {
-//                print("right")
-//                cellSwipedRight()
-//            }
-//            panRecognizer.view?.center = CGPoint(x: (owningNode?.view.center.x)!, y: panRecognizer.view!.center.y)
-//            panRecognizer.setTranslation(.zero, in: owningNode?.view)
-//        }
-//        
-//    }
     
     func addTouchRecognizers() {
         self.view.isUserInteractionEnabled = true
-
-        // Left Swipe
-        let leftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(followSwipeGesture(_:)))
-        leftRecognizer.direction = .left
-        self.view.addGestureRecognizer(leftRecognizer)
         
-        // Right Swipe
-        let rightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(followSwipeGesture(_:)))
-        rightRecognizer.direction = .right
-        self.view.addGestureRecognizer(rightRecognizer)
+//        // Left Swipe
+//        let leftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(followSwipeGesture(_:)))
+//        leftRecognizer.direction = .left
+//        self.view.addGestureRecognizer(leftRecognizer)
+//        
+//        // Right Swipe
+//        let rightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(followSwipeGesture(_:)))
+//        rightRecognizer.direction = .right
+//        self.view.addGestureRecognizer(rightRecognizer)
         
         // Hold Gesture
         let holdRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(holdGesture(_:)))
@@ -235,17 +202,17 @@ class AMLinkCellNode: ASCellNode {
         //self.view.addGestureRecognizer(tapRecognizer)
         // Pan gesture
         //let pangGesture = UIGestureRecognizer(target: self, action: #selector(panGesture2(_:)))
-//        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(_:)))
-//        panRecognizer.maximumNumberOfTouches = 1
-//        panRecognizer.minimumNumberOfTouches = 1
-//        
-//        self.view.addGestureRecognizer(panRecognizer)
+        //        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(_:)))
+        //        panRecognizer.maximumNumberOfTouches = 1
+        //        panRecognizer.minimumNumberOfTouches = 1
+        //
+        //        self.view.addGestureRecognizer(panRecognizer)
     }
-
+    
     init(link: AMLink, loader: RedditLoader) {
         self.link = link
         self.redditLoader = loader
-
+        
         // init the super
         super.init()
         
@@ -358,9 +325,9 @@ class AMLinkCellNode: ASCellNode {
             let flairString = link.l.authorFlairText.checkForBrackets()
             authorFlairNode.attributedText = NSAttributedString.attributedString(string: flairString, fontSize: 8, color: .flatWhite)
             authorFlairNode.textContainerInset = UIEdgeInsets(top: 0, left: 2, bottom: 1, right: 2)
-//            authorFlairNode.borderWidth = 1.0
-//            authorFlairNode.borderColor = UIColor.flatGrayDark.cgColor
-//            authorFlairNode.cornerRadius = 3.0
+            //            authorFlairNode.borderWidth = 1.0
+            //            authorFlairNode.borderColor = UIColor.flatGrayDark.cgColor
+            //            authorFlairNode.cornerRadius = 3.0
             authorFlairNode.truncationMode = .byTruncatingTail
             authorFlairNode.maximumNumberOfLines = 1
             
@@ -405,8 +372,8 @@ class AMLinkCellNode: ASCellNode {
             
             // Add count if more than one (disabled)
             //if(link.l.gilded > 1) {
-                let count = NSMutableAttributedString(string: "x\(link.l.gilded)", attributes: [NSFontAttributeName: AppFont(size: 12, bold: false)])
-                text.append(count)
+            let count = NSMutableAttributedString(string: "x\(link.l.gilded)", attributes: [NSFontAttributeName: AppFont(size: 12, bold: false)])
+            text.append(count)
             //}
             
             text.addAttribute(NSForegroundColorAttributeName, value: UIColor(hexString: "FFD700")!, range: NSRange(location: 0, length: text.length))
@@ -494,7 +461,7 @@ class AMLinkCellNode: ASCellNode {
         voteNodeSpec.verticalPosition = .end
         voteNodeSpec.children = [voteNode]
         voteNodeSpec.horizontalPosition = .end
-
+        
         rightSideStackSpec.alignItems = .center
         rightSideStackSpec.spacing = 5.0
         rightSideStackSpec.children = [pointsNodeSpec, commentsNodeSpec, voteNodeSpec]

@@ -102,6 +102,8 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
                 hasBanner = true
             }
         }
+        redditLoader.connect()
+        redditLoader.delegate = self
         redditLoader.getSubreddit(subreddit?.s.displayName)
     }
     
@@ -122,7 +124,7 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         self.navigationItem.titleView = titleView
         
         // Tap Gesture
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(titleWasTapped))
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(titleWasTapped(_:)))
         titleView.isUserInteractionEnabled = true
         titleView.addGestureRecognizer(recognizer)
     }
@@ -141,7 +143,7 @@ class AMSubredditViewController: ASViewController<ASTableNode>, UIPopoverPresent
         print("dismiss")
     }
     
-    @objc private func titleWasTapped() {
+    @objc private func titleWasTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         print("Hello, titleWasTapped!")
         
         let startPoint = CGPoint(x: self.view.frame.width / 2, y: 55)
@@ -269,6 +271,9 @@ extension AMSubredditViewController: ASTableDataSource {
             }
         case 1:
             let linkCell = AMLinkCellNode(link: redditLoader.links[indexPath.row], loader: redditLoader)
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture(_:)))
+            linkCell.view.tag = indexPath.row
+            linkCell.view.addGestureRecognizer(tapRecognizer)
             return linkCell
         default:
             return ASCellNode()
