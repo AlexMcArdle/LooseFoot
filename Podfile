@@ -10,7 +10,7 @@ target 'LooseFoot' do
   pod 'ActiveLabel'
   pod 'reddift'
   pod 'Kingfisher'
-  pod 'FontAwesome.swift'
+  pod 'FontAwesome.swift', :git => 'https://github.com/thii/FontAwesome.swift.git'
   pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
   pod 'SwiftyJSON'
   pod 'Toaster'
@@ -19,13 +19,14 @@ target 'LooseFoot' do
   pod 'FPSCounter'
   pod 'SwiftyMarkdown'
   pod 'Popover'
+  pod 'PopupDialog'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Messaging'
   #pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', branch: 'master', submodules: true
   pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', branch: 'master', submodules: true
   #pod 'RealmSearchViewController'
-
+  pod 'BonMot'
 
   post_install do |installer|
       installer.pods_project.targets.each do |target|
