@@ -24,7 +24,7 @@ target 'LooseFoot' do
   pod 'Firebase/Auth'
   pod 'Firebase/Messaging'
   #pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', branch: 'master', submodules: true
-  pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', branch: 'master', submodules: true
+  pod 'RealmSwift'
   #pod 'RealmSearchViewController'
   pod 'BonMot'
 
