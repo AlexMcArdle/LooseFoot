@@ -1,43 +1,37 @@
 PODS:
   - ActiveLabel (0.7.1)
-  - AsyncDisplayKit (2.1):
-    - AsyncDisplayKit/PINRemoteImage (= 2.1)
-  - AsyncDisplayKit/Core (2.1)
-  - AsyncDisplayKit/PINRemoteImage (2.1):
-    - AsyncDisplayKit/Core
-    - PINRemoteImage/iOS (= 3.0.0-beta.7)
-    - PINRemoteImage/PINCache
-  - BonMot (4.2)
-  - Cartography (1.0.1)
+  - BonMot (4.3.1)
+  - Cartography (1.1.0)
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
-  - Firebase/Auth (3.14.0):
+  - Firebase/Auth (3.16.0):
     - Firebase/Core
     - FirebaseAuth (= 3.1.1)
-  - Firebase/Core (3.14.0):
-    - FirebaseAnalytics (= 3.7.0)
-    - FirebaseCore (= 3.5.1)
-  - Firebase/Messaging (3.14.0):
+  - Firebase/Core (3.16.0):
+    - FirebaseAnalytics (= 3.8.0)
+    - FirebaseCore (= 3.6.0)
+  - Firebase/Messaging (3.16.0):
     - Firebase/Core
-    - FirebaseMessaging (= 1.2.2)
-  - FirebaseAnalytics (3.7.0):
-    - FirebaseCore (~> 3.5)
+    - FirebaseMessaging (= 1.2.3)
+  - FirebaseAnalytics (3.8.0):
+    - FirebaseCore (~> 3.6)
     - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseAuth (3.1.1):
     - FirebaseAnalytics (~> 3.7)
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (3.5.1):
+  - FirebaseCore (3.6.0):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseInstanceID (1.0.9)
-  - FirebaseMessaging (1.2.2):
-    - FirebaseAnalytics (~> 3.7)
+  - FirebaseInstanceID (1.0.10):
+    - FirebaseCore (~> 3.6)
+  - FirebaseMessaging (1.2.3):
+    - FirebaseAnalytics (~> 3.8)
     - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
-  - FontAwesome.swift (1.1.0)
+  - FontAwesome.swift (1.1.2)
   - FPSCounter (2.0.0)
   - GoogleToolboxForMac/DebugUtils (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
@@ -51,39 +45,48 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
-  - GTMSessionFetcher/Core (1.1.8)
-  - Kingfisher (3.5.0)
-  - PINCache (3.0.1-beta.2):
-    - PINCache/Arc-exception-safe (= 3.0.1-beta.2)
-    - PINCache/Core (= 3.0.1-beta.2)
-  - PINCache/Arc-exception-safe (3.0.1-beta.2):
+  - GTMSessionFetcher/Core (1.1.9)
+  - Kingfisher (3.6.2)
+  - PINCache (3.0.1-beta.4):
+    - PINCache/Arc-exception-safe (= 3.0.1-beta.4)
+    - PINCache/Core (= 3.0.1-beta.4)
+  - PINCache/Arc-exception-safe (3.0.1-beta.4):
     - PINCache/Core
-  - PINCache/Core (3.0.1-beta.2)
-  - PINRemoteImage/Core (3.0.0-beta.7)
-  - PINRemoteImage/iOS (3.0.0-beta.7):
+  - PINCache/Core (3.0.1-beta.4):
+    - PINOperation (= 1.0.3)
+  - PINOperation (1.0.3)
+  - PINRemoteImage/Core (3.0.0-beta.9):
+    - PINOperation
+  - PINRemoteImage/iOS (3.0.0-beta.9):
     - PINRemoteImage/Core
-  - PINRemoteImage/PINCache (3.0.0-beta.7):
-    - PINCache (= 3.0.1-beta.2)
+  - PINRemoteImage/PINCache (3.0.0-beta.9):
+    - PINCache (= 3.0.1-beta.4)
     - PINRemoteImage/Core
-  - Popover (1.0.4)
-  - PopupDialog (0.5.3)
-  - Protobuf (3.2.0)
-  - Realm (2.4.3):
-    - Realm/Headers (= 2.4.3)
-  - Realm/Headers (2.4.3)
-  - RealmSwift (2.4.3):
-    - Realm (= 2.4.3)
+  - Popover (1.0.5)
+  - PopupDialog (0.5.4)
+  - Protobuf (3.2.1)
+  - Realm (2.6.2):
+    - Realm/Headers (= 2.6.2)
+  - Realm/Headers (2.6.2)
+  - RealmSwift (2.6.2):
+    - Realm (= 2.6.2)
   - reddift (2.0.1):
     - reddift/MiniKeychain (= 2.0.1)
   - reddift/MiniKeychain (2.0.1)
   - SwiftyJSON (3.1.4)
-  - SwiftyMarkdown (0.3.2)
+  - SwiftyMarkdown (0.3.4)
+  - Texture (2.3):
+    - Texture/PINRemoteImage (= 2.3)
+  - Texture/Core (2.3)
+  - Texture/PINRemoteImage (2.3):
+    - PINRemoteImage/iOS (= 3.0.0-beta.9)
+    - PINRemoteImage/PINCache
+    - Texture/Core
   - Toaster (2.0.3)
   - UIColor_Hex_Swift (3.0.2)
 
 DEPENDENCIES:
   - ActiveLabel
-  - AsyncDisplayKit
   - BonMot
   - Cartography
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
@@ -99,6 +102,7 @@ DEPENDENCIES:
   - reddift
   - SwiftyJSON
   - SwiftyMarkdown
+  - Texture
   - Toaster
   - UIColor_Hex_Swift
 
@@ -110,42 +114,43 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   ChameleonFramework:
-    :commit: dcf98f9bf3a632a7f40679b7da46f09681e48526
+    :commit: acc480fbe023c6e5fe40f68593f4a70a8c4c7ad5
     :git: https://github.com/ViccAlexander/Chameleon.git
   FontAwesome.swift:
-    :commit: 2309b11d3ed5895fda0bfdc392d16a1d199c97c0
+    :commit: b161d350884a07720475b7d4c77485981010215a
     :git: https://github.com/thii/FontAwesome.swift.git
 
 SPEC CHECKSUMS:
   ActiveLabel: 68625f22775f51c31bb691ca8de20f1e5a3bc825
-  AsyncDisplayKit: 28de788f9d6ec573be7662f0fe8931e656357e93
-  BonMot: 9dbd59135974d2fa591a2084b3489bdc0e15e8f8
-  Cartography: c1460e99395b824d9d75360b0382faeb0b33dcd7
+  BonMot: 043bb5a8834cc6d74e9d624742272b92385e0a27
+  Cartography: 0538ccb4044acbbda2266335fc58cb4228794d90
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
-  Firebase: 85a581fb04e44f63ae9f4fbc8d6dabf4a4c18653
-  FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
+  Firebase: 21bf4a89d3f01bfbe11adc3a5d934a4a3d3a5fd6
+  FirebaseAnalytics: 920e46455f27b0a52a80907a6d9b73ee4bd1c635
   FirebaseAuth: cc8a1824170adbd351edb7f994490a3fb5c18be6
-  FirebaseCore: 225d40532489835a034b8f4e2c9c87fbf4f615a2
-  FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
-  FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
-  FontAwesome.swift: beb63f208f69f998d00fdb2d4d5d8813b494f3d8
+  FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
+  FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
+  FirebaseMessaging: 753d05a925e9eb8eadd09a0ffc9b808578b72fac
+  FontAwesome.swift: b761759b4ce0ba8275b294c0f7c100b9fca72efd
   FPSCounter: d4b8588434c18de19ef819c9fc06f80ce0924d94
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
-  Kingfisher: 7c62087039d93d26c54c8dd9b0b588d2ce55cef6
-  PINCache: 6d273a6e0754bd26e3f12a38a90dde73cc6a42b2
-  PINRemoteImage: ff63baf185088530db6cfa41cb665e2b5126b5c3
-  Popover: 8bced665f98824ded3b8114a27f4d2281c78a672
-  PopupDialog: 533dd564f8781633375505b9fbd406f8f146ccc9
-  Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
-  Realm: e08d60b0048ccccd3949c8c28a92c4db5712d7e9
-  RealmSwift: 30d49739ccb3385d201242736ca4dda56aec9dfc
+  GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
+  Kingfisher: 2c94e72c6830622c71d06adf4ea024c37d316830
+  PINCache: a89c8f609232afac77128557bd12c861844423d7
+  PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
+  PINRemoteImage: e4e02e15a6f96cedbcef2abf1c9c1228dc9897d7
+  Popover: f31b0ef6f43192256e6fcf13a0ce10f01c803159
+  PopupDialog: 75cf955693590b0cb2fdde00223fb65d99c57247
+  Protobuf: 2ccbaf193f6c65adc67745453ca0c13234c32796
+  Realm: 29222766425b9f831228f81b63f0e38a97a4d700
+  RealmSwift: d161a80f96cb91ae88391a7d5a9cf08024a7bc8e
   reddift: c6dc41a76657a9ca5c07f55a8e8ad6440f3635a9
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  SwiftyMarkdown: 59cea5af966f7fb0ed99dfc29174d82ba1534cfd
+  SwiftyMarkdown: e227c4f67000248358be3d566e5f51e9a020757d
+  Texture: de523401d6c296e63249021246a95bf7f90b3d9c
   Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   UIColor_Hex_Swift: 95f718452092a3efc8a827dffd2c04d3237be02d
 
-PODFILE CHECKSUM: 80697d05663fa0a473f6341867d7000b807f37ab
+PODFILE CHECKSUM: 1086ace0f5150b0e6598915aa0bc196d1dd81c6f
 
 COCOAPODS: 1.2.0

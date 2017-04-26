@@ -6,7 +6,7 @@ target 'LooseFoot' do
   use_frameworks!
 
   # Pods for LooseFoot
-  pod 'AsyncDisplayKit'
+  pod 'Texture'
   pod 'ActiveLabel'
   pod 'reddift'
   pod 'Kingfisher'
@@ -23,9 +23,7 @@ target 'LooseFoot' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Messaging'
-  #pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', branch: 'master', submodules: true
   pod 'RealmSwift'
-  #pod 'RealmSearchViewController'
   pod 'BonMot'
 
   post_install do |installer|
