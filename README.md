@@ -23,4 +23,5 @@ Known Issues:
 
 License:
 * This project, excluding dependencies, is listed under `GNU General Public License v3.0`
-* License file can be find under `LICENSE`
+* Project owner reserves the right to submit the "completed product" to the App Store.
+* License file can be found under `LICENSE`
